@@ -3,7 +3,6 @@ require 'bundler/setup'
 
 PACKAGE_NAME = "bosh_cli"
 INTERNAL_BIN = "bosh"
-VERSION = "1.2788.0" # TODO: get from bosh_cli gem version
 
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
 TRAVELING_RUBY_VERSION = "20141209-2.1.5"
@@ -17,6 +16,10 @@ NATIVE_GEMS = {"nokogiri" => NOKOGIRI_VERSION}
 
 desc "Package your app"
 task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx']
+
+task :bosh_cli_version do
+  puts bosh_cli_version
+end
 
 namespace :package do
   namespace :linux do
@@ -86,7 +89,7 @@ end
 end
 
 def create_package(target)
-  package_dir = "#{PACKAGE_NAME}-#{VERSION}-#{target}"
+  package_dir = "#{PACKAGE_NAME}-#{bosh_cli_version}-#{target}"
   sh "rm -rf #{package_dir}"
   sh "mkdir #{package_dir}"
   sh "mkdir -p #{package_dir}/lib/app"
@@ -117,4 +120,12 @@ end
 def download_native_extension(target, gem_name_and_version)
   sh "curl -L --fail -o packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-#{gem_name_and_version}.tar.gz " +
     "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-gems-#{TRAVELING_RUBY_VERSION}-#{target}/#{gem_name_and_version}.tar.gz"
+end
+
+def bosh_cli_version
+  @bosh_cli_version ||= begin
+    if `bundle list | grep bosh_cli` =~ /(\d+\.\d+\.\d+)/
+      $1
+    end
+  end
 end
