@@ -4,18 +4,53 @@ require 'bundler/setup'
 PACKAGE_NAME = "bosh_cli"
 INTERNAL_BIN = "bosh"
 
+RELEASE_NAME = "Self-contained BOSH CLI"
+RELEASE_DESCRIPTION = "It is now easier than ever to install and use BOSH CLI. Download, unpack, and use `./bosh` script."
+
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
 TRAVELING_RUBY_VERSION = "20141209-2.1.5"
 NOKOGIRI_VERSION = "1.6.5"  # Must match Gemfile
 SQLITE3_VERSION = "1.3.9"  # Must match Gemfile
-MYSQL2_VERSION = "0.3.17"  # Must match Gemfile
-PG_VERSION = "0.17.1"  # Must match Gemfile
 NATIVE_GEMS = {"nokogiri" => NOKOGIRI_VERSION}
+# MYSQL2_VERSION = "0.3.17"  # Must match Gemfile
+# PG_VERSION = "0.17.1"  # Must match Gemfile
 # , "sqlite3" => SQLITE3_VERSION,
 #               "mysql2" => MYSQL2_VERSION, "pg" => PG_VERSION}
 
 desc "Package your app"
 task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx']
+
+desc "Create a release on github and upload"
+task :create_release do
+  tag = "v#{bosh_cli_version}"
+  sh "git commit -a -m 'Releasing #{tag}'"
+  sh "git tag #{tag}"
+  sh "git push origin master"
+  sh "git push --tag"
+  sh "github-release release \
+    --user cloudfoundry-community --repo traveling-bosh --tag #{tag} \
+    --name '#{RELEASE_NAME} #{tag}' \
+    --description '#{RELEASE_DESCRIPTION}'"
+end
+
+desc "Upload files to github release"
+task :upload_files do
+  tag = "v#{bosh_cli_version}"
+
+  files = Dir["*#{bosh_cli_version}*.tar.gz"]
+  if files.size == 0
+    $stderr.puts "Run `rake package` to create packages first"
+    exit 1
+  end
+  files.each do |file|
+    sh "github-release upload \
+      --user cloudfoundry-community --repo traveling-bosh --tag #{tag} \
+      --name #{file} --file #{file}"
+  end
+end
+
+desc "Package and upload"
+task :release => ['package', 'create_release', 'upload_files']
 
 namespace :package do
   namespace :linux do
