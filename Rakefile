@@ -17,10 +17,6 @@ NATIVE_GEMS = {"nokogiri" => NOKOGIRI_VERSION}
 desc "Package your app"
 task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx']
 
-task :bosh_cli_version do
-  puts bosh_cli_version
-end
-
 namespace :package do
   namespace :linux do
     desc "Package your app for Linux x86"
