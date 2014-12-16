@@ -3,10 +3,19 @@ Traveling BOSH CLI
 
 This project packages the BOSH CLI (with plugins) into self-contained packages that can be downloaded and used by anyone without requiring Ruby and native extensions.
 
+In addition, if you act now, it also includes:
+
+-	the `spiff` tool for merging deployment manifests together
+-	the `bosh_cli_plugin_micro` plugin to create, update and delete Micro BOSH VMs
+
 Simple installation
 -------------------
 
-Coming soon.
+From any OS X or Linux terminal run the following command to download, unpack, and setup your `$PATH`:
+
+```
+curl -k -s https://raw.githubusercontent.com/cloudfoundry-community/bosh_cli_install/master/binscripts/installer | bash
+```
 
 Step-by-step installation
 -------------------------
