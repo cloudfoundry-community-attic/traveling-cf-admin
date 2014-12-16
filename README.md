@@ -93,4 +93,4 @@ bosh_cli-1.2788.0-linux-x86_64.tar.gz
 bosh_cli-1.2788.0-osx.tar.gz
 ```
 
-It will then create a GitHub release and upload these assets to the release.
+It will then create a GitHub release and upload these assets to the release. For example, for [v1.1788.0](https://github.com/cloudfoundry-community/traveling-bosh/releases/tag/v1.2788.0).
