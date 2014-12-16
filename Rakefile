@@ -9,6 +9,8 @@ RELEASE_DESCRIPTION = "It is now easier than ever to install and use BOSH CLI. D
 
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
 TRAVELING_RUBY_VERSION = "20141209-2.1.5"
+TRAVELING_SPIFF_VERSION = "1.0.3"
+
 NOKOGIRI_VERSION = "1.6.5"  # Must match Gemfile
 SQLITE3_VERSION = "1.3.9"  # Must match Gemfile
 NATIVE_GEMS = {"nokogiri" => NOKOGIRI_VERSION}
@@ -69,6 +71,7 @@ namespace :package do
     task :x86_64 => [:bundle_install,
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
+      "packaging/spiff-#{TRAVELING_SPIFF_VERSION}-linux-x86_64.zip",
       # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-mysql2-#{MYSQL2_VERSION}.tar.gz",
       # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-pg-#{PG_VERSION}.tar.gz"
@@ -81,6 +84,7 @@ namespace :package do
   task :osx => [:bundle_install,
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
+    "packaging/spiff-#{TRAVELING_SPIFF_VERSION}-osx.zip",
     # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-sqlite3-#{SQLITE3_VERSION}.tar.gz",
     # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-mysql2-#{MYSQL2_VERSION}.tar.gz",
     # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-pg-#{PG_VERSION}.tar.gz"
@@ -117,6 +121,10 @@ end
       download_native_extension(target, "#{gem}-#{version}")
     end
   end
+
+  file "packaging/spiff-#{TRAVELING_SPIFF_VERSION}-#{target}.zip" do
+    download_spiff(target)
+  end
 end
 
 def create_package(target)
@@ -127,6 +135,7 @@ def create_package(target)
   # sh "cp hello.rb #{package_dir}/lib/app/"
   sh "mkdir #{package_dir}/lib/ruby"
   sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C #{package_dir}/lib/ruby"
+  sh "unzip packaging/spiff-#{TRAVELING_SPIFF_VERSION}-#{target}.zip -d #{package_dir}"
   sh "cp packaging/wrapper.sh #{package_dir}/#{INTERNAL_BIN}"
   sh "chmod +x packaging/wrapper.sh #{package_dir}/#{INTERNAL_BIN}"
   sh "cp -pR packaging/vendor #{package_dir}/lib/"
@@ -151,6 +160,19 @@ end
 def download_native_extension(target, gem_name_and_version)
   sh "curl -L --fail -o packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-#{gem_name_and_version}.tar.gz " +
     "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-gems-#{TRAVELING_RUBY_VERSION}-#{target}/#{gem_name_and_version}.tar.gz"
+end
+
+def download_spiff(target)
+  if target == "linux-x86"
+    puts "spiff not supported on 32-bit linux, skipping..."
+  else
+    url = if target =~ /linux/
+      "https://github.com/cloudfoundry-incubator/spiff/releases/download/v#{TRAVELING_SPIFF_VERSION}/spiff_linux_amd64.zip"
+    else
+      "https://github.com/cloudfoundry-incubator/spiff/releases/download/v#{TRAVELING_SPIFF_VERSION}/spiff_darwin_amd64.zip"
+    end
+    sh "curl -L --fail -o packaging/spiff-#{TRAVELING_SPIFF_VERSION}-#{target}.zip #{url}"
+  end
 end
 
 def bosh_cli_version
