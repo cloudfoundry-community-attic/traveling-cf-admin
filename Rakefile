@@ -109,6 +109,11 @@ namespace :package do
     sh "find packaging/vendor/ruby/*/gems -name '*.so' | xargs rm"
     sh "find packaging/vendor/ruby/*/gems -name '*.bundle' | xargs rm"
   end
+
+  desc "Clean up created releases"
+  task :clean do
+    sh "rm -f #{PACKAGE_NAME}*.tar.gz"
+  end
 end
 
 %w[linux-x86 linux-x86_64 osx].each do |target|
