@@ -40,8 +40,8 @@ To check that its runnable:
 You could now create a symlink:
 
 ```
-rm -f bosh_cli
-ln -s $PWD/$(ls -d bosh_cli* | head -n1) bosh_cli
+rm -f bosh-cli
+ln -s $PWD/$(ls -d bosh_cli* | head -n1) bosh-cli
 ```
 
 Check that its runnable via the symlink:
@@ -49,13 +49,13 @@ Check that its runnable via the symlink:
 To check that its runnable:
 
 ```
-./bosh_cli/bosh
+./bosh-cli/bosh
 ```
 
-Finally, add the `bosh_cli` path into your `$PATH`:
+Finally, add the `bosh-cli` path into your `$PATH`:
 
 ```
-export PATH=/path/to/bosh_cli:$PATH
+export PATH=$PATH:/path/to/bosh-cli
 ```
 
 Background
