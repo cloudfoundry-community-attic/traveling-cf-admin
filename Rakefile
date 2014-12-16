@@ -19,40 +19,42 @@ NATIVE_GEMS = {"nokogiri" => NOKOGIRI_VERSION}
 # , "sqlite3" => SQLITE3_VERSION,
 #               "mysql2" => MYSQL2_VERSION, "pg" => PG_VERSION}
 
+desc "Package and upload"
+task :release => ['package', 'release:create', 'release:upload_files']
+
 desc "Package your app"
 task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx']
 
-desc "Create a release on github and upload"
-task :create_release do
-  tag = "v#{bosh_cli_version}"
-  sh "git commit -a -m 'Releasing #{tag}'"
-  sh "git tag #{tag}"
-  sh "git push origin master"
-  sh "git push --tag"
-  sh "github-release release \
-    --user cloudfoundry-community --repo traveling-bosh --tag #{tag} \
-    --name '#{RELEASE_NAME} #{tag}' \
-    --description '#{RELEASE_DESCRIPTION}'"
-end
-
-desc "Upload files to github release"
-task :upload_files do
-  tag = "v#{bosh_cli_version}"
-
-  files = Dir["*#{bosh_cli_version}*.tar.gz"]
-  if files.size == 0
-    $stderr.puts "Run `rake package` to create packages first"
-    exit 1
-  end
-  files.each do |file|
-    sh "github-release upload \
+namespace :release do
+  desc "Create a release on github and upload"
+  task :create do
+    tag = "v#{bosh_cli_version}"
+    sh "git commit -a -m 'Releasing #{tag}'"
+    sh "git tag #{tag}"
+    sh "git push origin master"
+    sh "git push --tag"
+    sh "github-release release \
       --user cloudfoundry-community --repo traveling-bosh --tag #{tag} \
-      --name #{file} --file #{file}"
+      --name '#{RELEASE_NAME} #{tag}' \
+      --description '#{RELEASE_DESCRIPTION}'"
+  end
+
+  desc "Upload files to github release"
+  task :upload_files do
+    tag = "v#{bosh_cli_version}"
+
+    files = Dir["*#{bosh_cli_version}*.tar.gz"]
+    if files.size == 0
+      $stderr.puts "Run `rake package` to create packages first"
+      exit 1
+    end
+    files.each do |file|
+      sh "github-release upload \
+        --user cloudfoundry-community --repo traveling-bosh --tag #{tag} \
+        --name #{file} --file #{file}"
+    end
   end
 end
-
-desc "Package and upload"
-task :release => ['package', 'create_release', 'upload_files']
 
 namespace :package do
   namespace :linux do
