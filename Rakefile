@@ -5,7 +5,8 @@ PACKAGE_NAME = "bosh_cli"
 INTERNAL_BIN = "bosh"
 
 RELEASE_NAME = "Self-contained BOSH CLI"
-RELEASE_DESCRIPTION = "It is now easier than ever to install and use BOSH CLI. Download, unpack, and use `./bosh` script."
+RELEASE_DESCRIPTION = "It is now easier than ever to install and use BOSH CLI. " +
+  "Download, unpack, and use `./bosh` script. Or visit http://bosh-cli.cfapps.io/ for installation instructions."
 
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
 TRAVELING_RUBY_VERSION = "20141209-2.1.5"
