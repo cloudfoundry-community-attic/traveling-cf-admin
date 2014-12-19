@@ -1,7 +1,6 @@
 source "https://rubygems.org"
 
-# gem "bosh_cli_plugin_micro" - requires native support for yajl-ruby from traveling-ruby
-gem "bosh_cli"
+gem "bosh-bootstrap" # includes bosh_cli & bosh_cli_plugin_micro
 gem "traveling_bosh_cli_plugin"
 
 gem 'sqlite3', '1.3.9'
