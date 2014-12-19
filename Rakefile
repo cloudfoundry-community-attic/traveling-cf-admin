@@ -5,8 +5,19 @@ PACKAGE_NAME = "bosh_cli"
 INTERNAL_BIN = "bosh"
 
 RELEASE_NAME = "Self-contained BOSH CLI"
-RELEASE_DESCRIPTION = "It is now easier than ever to install and use BOSH CLI. " +
-  "Download, unpack, and use `./bosh` script. Or visit http://bosh-cli.cfapps.io/ for installation instructions."
+RELEASE_DESCRIPTION = <<-EOS
+It is now easier than ever to install and use BOSH CLI.
+
+Install for local user with:
+
+```
+curl -k -s https://raw.githubusercontent.com/cloudfoundry-community/bosh_cli_install/master/binscripts/installer | bash
+```
+
+Visit http://bosh-cli.cfapps.io/ for one-line installation instructions.
+
+Alternately manually download, unpack, and use `./bosh` script.
+EOS
 
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
 TRAVELING_RUBY_VERSION = "20141219-2.1.5"
