@@ -9,16 +9,17 @@ RELEASE_DESCRIPTION = "It is now easier than ever to install and use BOSH CLI. "
   "Download, unpack, and use `./bosh` script. Or visit http://bosh-cli.cfapps.io/ for installation instructions."
 
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
-TRAVELING_RUBY_VERSION = "20141209-2.1.5"
+TRAVELING_RUBY_VERSION = "20141219-2.1.5"
 TRAVELING_SPIFF_VERSION = "1.0.3"
 
 NOKOGIRI_VERSION = "1.6.5"  # Must match Gemfile
 SQLITE3_VERSION = "1.3.9"  # Must match Gemfile
-NATIVE_GEMS = {"nokogiri" => NOKOGIRI_VERSION}
-# MYSQL2_VERSION = "0.3.17"  # Must match Gemfile
-# PG_VERSION = "0.17.1"  # Must match Gemfile
-# , "sqlite3" => SQLITE3_VERSION,
-#               "mysql2" => MYSQL2_VERSION, "pg" => PG_VERSION}
+YAJL_VERSION = "1.2.1"  # Must match Gemfile
+NATIVE_GEMS = {
+  "nokogiri" => NOKOGIRI_VERSION,
+  "sqlite3" => SQLITE3_VERSION,
+  "yajl-ruby" => YAJL_VERSION,
+}
 
 desc "Package and upload"
 task :release => ['package', 'release:create', 'release:upload_files']
@@ -63,9 +64,8 @@ namespace :package do
     task :x86 => [:bundle_install,
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
-      # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-sqlite3-#{SQLITE3_VERSION}.tar.gz",
-      # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-mysql2-#{MYSQL2_VERSION}.tar.gz",
-      # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-pg-#{PG_VERSION}.tar.gz"
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-sqlite3-#{SQLITE3_VERSION}.tar.gz",
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-yajl-ruby-#{YAJL_VERSION}.tar.gz",
     ] do
       create_package("linux-x86")
     end
@@ -74,10 +74,9 @@ namespace :package do
     task :x86_64 => [:bundle_install,
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-sqlite3-#{SQLITE3_VERSION}.tar.gz",
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-yajl-ruby-#{YAJL_VERSION}.tar.gz",
       "packaging/spiff-#{TRAVELING_SPIFF_VERSION}-linux-x86_64.zip",
-      # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-sqlite3-#{SQLITE3_VERSION}.tar.gz",
-      # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-mysql2-#{MYSQL2_VERSION}.tar.gz",
-      # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-pg-#{PG_VERSION}.tar.gz"
     ] do
       create_package("linux-x86_64")
     end
@@ -87,10 +86,9 @@ namespace :package do
   task :osx => [:bundle_install,
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
+    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-sqlite3-#{SQLITE3_VERSION}.tar.gz",
+    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-yajl-ruby-#{YAJL_VERSION}.tar.gz",
     "packaging/spiff-#{TRAVELING_SPIFF_VERSION}-osx.zip",
-    # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-sqlite3-#{SQLITE3_VERSION}.tar.gz",
-    # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-mysql2-#{MYSQL2_VERSION}.tar.gz",
-    # "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-pg-#{PG_VERSION}.tar.gz"
   ] do
     create_package("osx")
   end
