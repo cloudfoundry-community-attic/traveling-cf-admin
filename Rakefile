@@ -114,6 +114,8 @@ namespace :package do
   desc "Clean up created releases"
   task :clean do
     sh "rm -f #{PACKAGE_NAME}*.tar.gz"
+    sh "rm -rf packaging/vendor"
+    sh "rm -rf packaging/*.tar.gz"
   end
 end
 
