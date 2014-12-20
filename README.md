@@ -5,9 +5,9 @@ This project packages the BOSH CLI (with plugins) into self-contained packages t
 
 In addition, if you act now, it also includes:
 
+-	the `bosh bootstrap deploy` and `bosh micro` commands to create, update and delete Micro BOSH VMs
 -	the `spiff` tool for merging deployment manifests together
 -	`bosh update cli` command to upgrade to a newer BOSH CLI version
--	the `bosh_cli_plugin_micro` plugin to create, update and delete Micro BOSH VMs (coming soon)
 
 Simple installation
 -------------------
@@ -100,4 +100,5 @@ Additional information
 ----------------------
 
 -	The `bosh update cli` command comes from a BOSH CLI plugin https://github.com/cloudfoundry-community/traveling_bosh_cli_plugin
+-	The `bosh bootstrap deploy` command comes from the [bosh-bootstrap](https://github.com/cloudfoundry-community/bosh-bootstrap) project
 -	`spiff` is only included in the 64-bit Linux & OS X packages because only 64-bit versions are released https://github.com/cloudfoundry-incubator/spiff/releases
