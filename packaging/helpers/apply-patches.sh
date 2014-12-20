@@ -5,5 +5,7 @@ set -e
 SELFDIR="`dirname \"$0\"`"
 ROOTDIR="`cd \"$SELFDIR\"/.. && pwd`"
 
+cd $ROOTDIR/lib/vendor/ruby/2.1.0/gems/bosh_cli_plugin_micro*
+patch -p1 < $ROOTDIR/patches/*
+
 cd $ROOTDIR
-ls $ROOTDIR/lib/vendor/ruby/2.1.0/bin/* | xargs perl -pi -e "s{^#\!/usr/bin/env ruby}{#\!$ROOTDIR/lib/ruby/bin/ruby}"
