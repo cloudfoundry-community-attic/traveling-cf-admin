@@ -111,15 +111,19 @@ namespace :package do
     end
     sh "rm -rf packaging/tmp"
     sh "mkdir packaging/tmp"
-    sh "cp Gemfile Gemfile.lock packaging/tmp/"
+    sh "cp Gemfile* packaging/tmp/"
     Bundler.with_clean_env do
       sh "cd packaging/tmp && env BUNDLE_IGNORE_CONFIG=1 bundle install --path ../vendor --without development"
     end
+
     sh "rm -rf packaging/tmp"
     sh "rm -f packaging/vendor/*/*/cache/*"
     sh "rm -rf packaging/vendor/ruby/*/extensions"
     sh "find packaging/vendor/ruby/*/gems -name '*.so' | xargs rm"
     sh "find packaging/vendor/ruby/*/gems -name '*.bundle' | xargs rm"
+  end
+
+  task :backport_nokogiri_version do
   end
 
   desc "Clean up created releases"
@@ -165,6 +169,11 @@ def create_package(target)
     sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-#{gem}-#{version}.tar.gz " +
       "-C #{package_dir}/lib/vendor/ruby"
   end
+
+  # HACK: Backporting the pre-built nokogiri.bundle to the bundled 1.5.11
+  extn = Dir["#{package_dir}/lib/vendor/ruby/2.1.0/extensions/*"].first
+  sh "mv #{extn}/2.1.0-static/nokogiri-{1.6.5,1.5.11}"
+
   if !ENV['DIR_ONLY']
     sh "tar -czf #{package_dir}.tar.gz #{package_dir}"
     sh "rm -rf #{package_dir}"
