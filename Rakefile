@@ -2,7 +2,6 @@
 require 'bundler/setup'
 
 PACKAGE_NAME = "bosh_cli"
-INTERNAL_BIN = "bosh"
 
 RELEASE_NAME = "Self-contained BOSH CLI"
 RELEASE_DESCRIPTION = <<-EOS
@@ -159,8 +158,12 @@ def create_package(target)
   sh "mkdir #{package_dir}/lib/ruby"
   sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C #{package_dir}/lib/ruby"
   sh "unzip packaging/spiff-#{TRAVELING_SPIFF_VERSION}-#{target}.zip -d #{package_dir}; true"
-  sh "cp packaging/wrapper.sh #{package_dir}/#{INTERNAL_BIN}"
-  sh "chmod +x packaging/wrapper.sh #{package_dir}/#{INTERNAL_BIN}"
+
+  sh "cp packaging/wrappers/bosh.sh #{package_dir}/bosh"
+  sh "chmod +x packaging/wrappers/bosh.sh #{package_dir}/bosh"
+  sh "cp packaging/wrappers/bosh-registry.sh #{package_dir}/bosh-registry"
+  sh "chmod +x packaging/wrappers/bosh-registry.sh #{package_dir}/bosh-registry"
+
   sh "cp -pR packaging/vendor #{package_dir}/lib/"
   sh "cp Gemfile Gemfile.lock #{package_dir}/lib/vendor/"
   sh "mkdir #{package_dir}/lib/vendor/.bundle"
