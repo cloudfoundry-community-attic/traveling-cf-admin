@@ -112,7 +112,7 @@ GEM
       highline (~> 1.6)
       readwritesettings (~> 3.0)
     daemons (1.1.9)
-    eventmachine (1.0.3)
+    eventmachine (1.0.4)
     excon (0.42.1)
     fog (1.23.0)
       fog-brightbox
