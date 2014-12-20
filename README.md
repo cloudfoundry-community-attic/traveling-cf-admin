@@ -99,6 +99,12 @@ It will then create a GitHub release and upload these assets to the release. For
 Additional information
 ----------------------
 
+This traveling-ruby project is made tricky because it is re-entrant. For example, `bosh bootstrap deploy` calls out to `bosh micro deploy`, which in turn calls out to `bosh-registry`.
+
+This requires re-writing the shebang of all the binaries bundled with rubygems to force the use of the exact ruby being bundled.
+
+Other thoughts:
+
 -	The `bosh update cli` command comes from a BOSH CLI plugin https://github.com/cloudfoundry-community/traveling_bosh_cli_plugin
 -	The `bosh bootstrap deploy` command comes from the [bosh-bootstrap](https://github.com/cloudfoundry-community/bosh-bootstrap) project
 -	`spiff` is only included in the 64-bit Linux & OS X packages because only 64-bit versions are released https://github.com/cloudfoundry-incubator/spiff/releases
