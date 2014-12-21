@@ -176,10 +176,6 @@ def create_package(target)
       "-C #{package_dir}/lib/vendor/ruby"
   end
 
-  # HACK: Backporting the pre-built nokogiri.bundle to the bundled 1.5.11
-  extn = Dir["#{package_dir}/lib/vendor/ruby/2.1.0/extensions/*"].first
-  sh "mv #{extn}/2.1.0-static/nokogiri-{1.6.5,1.5.11}"
-
   if !ENV['DIR_ONLY']
     sh "tar -czf #{package_dir}.tar.gz #{package_dir}"
     sh "rm -rf #{package_dir}"
