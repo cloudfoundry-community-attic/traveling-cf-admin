@@ -176,6 +176,10 @@ def create_package(target)
   sh "cp -pR packaging/helpers #{package_dir}/"
 
   sh "cp -pR packaging/vendor #{package_dir}/lib/"
+
+  # remove the large (bosh) bundled repos
+  sh "rm -rf #{package_dir}/lib/ruby/2.1.0/bundler"
+
   sh "cp Gemfile Gemfile.lock #{package_dir}/lib/vendor/"
   sh "mkdir #{package_dir}/lib/vendor/.bundle"
   sh "cp packaging/bundler-config #{package_dir}/lib/vendor/.bundle/config"
@@ -183,6 +187,7 @@ def create_package(target)
     sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-#{gem}-#{version}.tar.gz " +
       "-C #{package_dir}/lib/vendor/ruby"
   end
+
 
   if !ENV['DIR_ONLY']
     sh "tar -czf #{package_dir}.tar.gz #{package_dir}"
