@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+# TODO: replace this with git branch in Gemfile
+
 # Figure out where this script is located.
 SELFDIR="`dirname \"$0\"`"
 ROOTDIR="`cd \"$SELFDIR\"/.. && pwd`"

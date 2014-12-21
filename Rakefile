@@ -21,6 +21,7 @@ EOS
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
 TRAVELING_RUBY_VERSION = "20141219-2.1.5"
 TRAVELING_SPIFF_VERSION = "1.0.3"
+TERRAFORM_VERSION = "0.3.5"
 
 NOKOGIRI_VERSION = "1.6.5"  # Must match Gemfile
 SQLITE3_VERSION = "1.3.9"  # Must match Gemfile
@@ -76,7 +77,8 @@ namespace :package do
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-yajl-ruby-#{YAJL_VERSION}.tar.gz",
-    ] do
+      "packaging/terraform-#{TERRAFORM_VERSION}-linux-x86.zip",
+      ] do
       create_package("linux-x86")
     end
 
@@ -87,6 +89,7 @@ namespace :package do
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-yajl-ruby-#{YAJL_VERSION}.tar.gz",
       "packaging/spiff-#{TRAVELING_SPIFF_VERSION}-linux-x86_64.zip",
+      "packaging/terraform-#{TERRAFORM_VERSION}-linux-x86_64.zip",
     ] do
       create_package("linux-x86_64")
     end
@@ -99,7 +102,8 @@ namespace :package do
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-sqlite3-#{SQLITE3_VERSION}.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-yajl-ruby-#{YAJL_VERSION}.tar.gz",
     "packaging/spiff-#{TRAVELING_SPIFF_VERSION}-osx.zip",
-  ] do
+    "packaging/terraform-#{TERRAFORM_VERSION}-osx.zip",
+    ] do
     create_package("osx")
   end
 
@@ -116,7 +120,7 @@ namespace :package do
     end
 
     sh "rm -rf packaging/tmp"
-    sh "rm -f packaging/vendor/*/*/cache/*"
+    sh "rm -rf packaging/vendor/*/*/cache/*"
     sh "rm -rf packaging/vendor/ruby/*/extensions"
     sh "find packaging/vendor/ruby/*/gems -name '*.so' | xargs rm"
     sh "find packaging/vendor/ruby/*/gems -name '*.bundle' | xargs rm"
@@ -147,6 +151,10 @@ end
   file "packaging/spiff-#{TRAVELING_SPIFF_VERSION}-#{target}.zip" do
     download_spiff(target)
   end
+
+  file "packaging/terraform-#{TERRAFORM_VERSION}-#{target}.zip" do
+    download_terraform(target)
+  end
 end
 
 def create_package(target)
@@ -158,6 +166,7 @@ def create_package(target)
   sh "mkdir #{package_dir}/lib/ruby"
   sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C #{package_dir}/lib/ruby"
   sh "unzip packaging/spiff-#{TRAVELING_SPIFF_VERSION}-#{target}.zip -d #{package_dir}; true"
+  sh "unzip packaging/terraform-#{TERRAFORM_VERSION}-#{target}.zip -d #{package_dir}; true"
 
   sh "cp packaging/wrappers/bosh.sh #{package_dir}/bosh"
   sh "chmod +x packaging/wrappers/bosh.sh #{package_dir}/bosh"
@@ -203,6 +212,19 @@ def download_spiff(target)
     end
     sh "curl -L --fail -o packaging/spiff-#{TRAVELING_SPIFF_VERSION}-#{target}.zip #{url}"
   end
+end
+
+def download_terraform(target)
+  terraform_target = case target
+  when "linux-x86_64"
+    "linux_amd64"
+  when "linux-x86"
+    "linux_386"
+  when "osx"
+    "darwin_amd64"
+  end
+  url = "https://bintray.com/artifact/download/mitchellh/terraform/terraform_#{TERRAFORM_VERSION}_#{terraform_target}.zip"
+  sh "curl -L --fail -o packaging/terraform-#{TERRAFORM_VERSION}-#{target}.zip #{url}"
 end
 
 def bosh_cli_version
