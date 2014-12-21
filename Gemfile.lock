@@ -28,8 +28,8 @@ GIT
 
 GIT
   remote: https://github.com/drnic/bosh.git
-  revision: b96af8f9da501f7a21cb3dfb9fd19569fe361625
-  branch: nokogiri
+  revision: 95a431ac1b268a8350cfe6fd895e25a1d48d951e
+  branch: traveling-bosh
   specs:
     agent_client (1.2797.0)
       httpclient (= 2.4.0)

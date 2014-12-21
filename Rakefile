@@ -174,7 +174,6 @@ def create_package(target)
   sh "chmod +x packaging/wrappers/bosh-registry.sh #{package_dir}/bosh-registry"
 
   sh "cp -pR packaging/helpers #{package_dir}/"
-  sh "cp -pR packaging/patches #{package_dir}/"
 
   sh "cp -pR packaging/vendor #{package_dir}/lib/"
   sh "cp Gemfile Gemfile.lock #{package_dir}/lib/vendor/"

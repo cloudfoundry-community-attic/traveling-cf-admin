@@ -16,6 +16,7 @@ From any OS X or Linux terminal run the following command to download, unpack, a
 
 ```
 curl -k -s https://raw.githubusercontent.com/cloudfoundry-community/bosh_cli_install/master/binscripts/installer | bash
+./traveling-bosh/helpers/rewrite-shebangs.sh
 ```
 
 Step-by-step installation
