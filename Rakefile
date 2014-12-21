@@ -20,7 +20,7 @@ EOS
 
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
 TRAVELING_RUBY_VERSION = "20141219-2.1.5"
-TRAVELING_SPIFF_VERSION = "1.0.3"
+SPIFF_VERSION = "1.0.3"
 TERRAFORM_VERSION = "0.3.5"
 
 NOKOGIRI_VERSION = "1.6.5"  # Must match Gemfile
@@ -88,7 +88,7 @@ namespace :package do
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-yajl-ruby-#{YAJL_VERSION}.tar.gz",
-      "packaging/spiff-#{TRAVELING_SPIFF_VERSION}-linux-x86_64.zip",
+      "packaging/spiff-#{SPIFF_VERSION}-linux-x86_64.zip",
       "packaging/terraform-#{TERRAFORM_VERSION}-linux-x86_64.zip",
     ] do
       create_package("linux-x86_64")
@@ -101,7 +101,7 @@ namespace :package do
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-sqlite3-#{SQLITE3_VERSION}.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-yajl-ruby-#{YAJL_VERSION}.tar.gz",
-    "packaging/spiff-#{TRAVELING_SPIFF_VERSION}-osx.zip",
+    "packaging/spiff-#{SPIFF_VERSION}-osx.zip",
     "packaging/terraform-#{TERRAFORM_VERSION}-osx.zip",
     ] do
     create_package("osx")
@@ -148,7 +148,7 @@ end
     end
   end
 
-  file "packaging/spiff-#{TRAVELING_SPIFF_VERSION}-#{target}.zip" do
+  file "packaging/spiff-#{SPIFF_VERSION}-#{target}.zip" do
     download_spiff(target)
   end
 
@@ -165,7 +165,7 @@ def create_package(target)
   # sh "cp hello.rb #{package_dir}/lib/app/"
   sh "mkdir #{package_dir}/lib/ruby"
   sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C #{package_dir}/lib/ruby"
-  sh "unzip packaging/spiff-#{TRAVELING_SPIFF_VERSION}-#{target}.zip -d #{package_dir}; true"
+  sh "unzip packaging/spiff-#{SPIFF_VERSION}-#{target}.zip -d #{package_dir}; true"
   sh "unzip packaging/terraform-#{TERRAFORM_VERSION}-#{target}.zip -d #{package_dir}; true"
 
   sh "cp packaging/wrappers/bosh.sh #{package_dir}/bosh"
@@ -205,11 +205,11 @@ def download_spiff(target)
     puts "spiff not supported on 32-bit linux, skipping..."
   else
     url = if target =~ /linux/
-      "https://github.com/cloudfoundry-incubator/spiff/releases/download/v#{TRAVELING_SPIFF_VERSION}/spiff_linux_amd64.zip"
+      "https://github.com/cloudfoundry-incubator/spiff/releases/download/v#{SPIFF_VERSION}/spiff_linux_amd64.zip"
     else
-      "https://github.com/cloudfoundry-incubator/spiff/releases/download/v#{TRAVELING_SPIFF_VERSION}/spiff_darwin_amd64.zip"
+      "https://github.com/cloudfoundry-incubator/spiff/releases/download/v#{SPIFF_VERSION}/spiff_darwin_amd64.zip"
     end
-    sh "curl -L --fail -o packaging/spiff-#{TRAVELING_SPIFF_VERSION}-#{target}.zip #{url}"
+    sh "curl -L --fail -o packaging/spiff-#{SPIFF_VERSION}-#{target}.zip #{url}"
   end
 end
 
