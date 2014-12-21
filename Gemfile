@@ -6,7 +6,7 @@ gem "traveling_bosh_cli_plugin"
 # patched projects to support newer gems
 gem 'foodcritic', github: 'acrmp/foodcritic'
 gem 'bosh_vcloud_cpi', github: 'drnic/bosh_vcloud_cpi', branch: 'nokogiri'
-git 'https://github.com/drnic/bosh.git', branch: 'nokogiri' do
+git 'https://github.com/drnic/bosh.git', branch: 'traveling-bosh' do
   gem 'bosh_cli_plugin_micro'
 end
 
