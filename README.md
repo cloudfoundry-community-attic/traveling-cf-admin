@@ -16,7 +16,6 @@ From any OS X or Linux terminal run the following command to download, unpack, a
 
 ```
 curl -k -s https://raw.githubusercontent.com/cloudfoundry-community/bosh_cli_install/master/binscripts/installer | bash
-./traveling-bosh/helpers/rewrite-shebangs.sh
 ```
 
 Step-by-step installation
@@ -31,6 +30,12 @@ rm -rf tar xfz bosh_cli*.tar.gz
 wget https://github.com/cloudfoundry-community/traveling-bosh/releases/download/v1.2788.0/bosh_cli-1.2788.0-linux-x86_64.tar.gz
 tar xfz bosh_cli*.tar.gz
 rm bosh_cli*.tar.gz
+```
+
+Rewrite the internal shebangs of ruby-installed binaries:
+
+```
+./traveling-bosh/helpers/rewrite-shebangs.sh
 ```
 
 To check that its runnable:
