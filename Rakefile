@@ -33,7 +33,10 @@ NATIVE_GEMS = {
 }
 
 desc "Package and upload"
-task :release => ['package', 'release:create', 'release:upload_files']
+task :publish => ['package', 'release']
+
+desc "Create release & upload files"
+task :release => ['release:create', 'release:upload_files']
 
 desc "Package your app"
 task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx']
