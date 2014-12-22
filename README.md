@@ -5,8 +5,9 @@ This project packages the BOSH CLI (with plugins) into self-contained packages t
 
 In addition, if you act now, it also includes:
 
--	the `bosh bootstrap deploy` and `bosh micro` commands to create, update and delete Micro BOSH VMs
--	the `spiff` tool for merging deployment manifests together
+-	`bosh bootstrap deploy` and `bosh micro` commands to create, update and delete Micro BOSH VMs
+-	`spiff` tool for merging deployment manifests together
+-	`terraform` CLI and plugins (thanks @mitchellh for permission) that are increasingly being used to provision networking & bootstrap deployment of BOSH, Cloud Foundry, etc
 -	`bosh update cli` command to upgrade to a newer BOSH CLI version
 
 Simple installation
