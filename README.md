@@ -109,3 +109,16 @@ Other thoughts:
 -	The `bosh update cli` command comes from a BOSH CLI plugin https://github.com/cloudfoundry-community/traveling_bosh_cli_plugin
 -	The `bosh bootstrap deploy` command comes from the [bosh-bootstrap](https://github.com/cloudfoundry-community/bosh-bootstrap) project
 -	`spiff` is only included in the 64-bit Linux & OS X packages because only 64-bit versions are released https://github.com/cloudfoundry-incubator/spiff/releases
+
+Including patched BOSH gems
+---------------------------
+
+Currently there are patches required for BOSH gems and dependency gems to use the newer versions of natively compiled gems available from traveling-ruby. We can do this via a Gemfile. But when we package up traveling-bosh it will include the entire BOSH git repository, which inflated the downloadable package from 60M to 1G.
+
+The https://github.com/drnic/flattened_bosh_for_traveling_bosh repository was created to house the smallest version of BOSH repo that contains the patched parts of BOSH.
+
+The result is the distributed packages are about 60M each, rather than 1G. Hurray.
+
+To upgrade to a new base version of BOSH, with the patches reapplied, see https://github.com/drnic/flattened_bosh_for_traveling_bosh
+
+But really, hopefully all the patches are merged and shipped in public gems soon.

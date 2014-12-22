@@ -113,8 +113,9 @@ namespace :package do
       abort "You can only 'bundle install' using Ruby 2.1, because that's what Traveling Ruby uses."
     end
     sh "rm -rf packaging/tmp"
-    sh "mkdir packaging/tmp"
+    sh "mkdir -p packaging/tmp"
     sh "cp Gemfile* packaging/tmp/"
+
     Bundler.with_clean_env do
       sh "cd packaging/tmp && env BUNDLE_IGNORE_CONFIG=1 bundle install --path ../vendor --without development"
     end
@@ -177,17 +178,13 @@ def create_package(target)
 
   sh "cp -pR packaging/vendor #{package_dir}/lib/"
 
-  # remove the large (bosh) bundled repos
-  sh "rm -rf #{package_dir}/lib/ruby/2.1.0/bundler"
-
-  sh "cp Gemfile Gemfile.lock #{package_dir}/lib/vendor/"
+  sh "cp Gemfile* #{package_dir}/lib/vendor/"
   sh "mkdir #{package_dir}/lib/vendor/.bundle"
   sh "cp packaging/bundler-config #{package_dir}/lib/vendor/.bundle/config"
   NATIVE_GEMS.each do |gem, version|
     sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-#{gem}-#{version}.tar.gz " +
       "-C #{package_dir}/lib/vendor/ruby"
   end
-
 
   if !ENV['DIR_ONLY']
     sh "tar -czf #{package_dir}.tar.gz #{package_dir}"

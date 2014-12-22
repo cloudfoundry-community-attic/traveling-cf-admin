@@ -1,3 +1,4 @@
 *.tar.gz
 *.zip
 packaging/vendor
+.DS_Store
