@@ -10,6 +10,26 @@ In addition, if you act now, it also includes:
 -	`terraform` CLI and plugins (thanks @mitchellh for permission) that are increasingly being used to provision networking & bootstrap deployment of BOSH, Cloud Foundry, etc
 -	`bosh update cli` command to upgrade to a newer BOSH CLI version
 
+Dependencies
+------------
+
+The goal of traveling-bosh is to have very few dependencies. `curl` is the only dependency for the simple installation process; and for `bosh bootstrap deploy` command.
+
+Some use cases of BOSH itself might require/desire `git` CLI to be installed too.
+
+For Linux:
+
+```
+sudo apt-get update
+sudo apt-get install curl -y
+```
+
+For OS X:
+
+```
+brew install curl
+```
+
 Simple installation
 -------------------
 
@@ -18,6 +38,133 @@ From any OS X or Linux terminal run the following command to download, unpack, a
 ```
 curl -k -s https://raw.githubusercontent.com/cloudfoundry-community/bosh_cli_install/master/binscripts/installer | bash
 ```
+
+Alternately see [step-by-step instructions](#step-by-step-installation) below.
+
+Getting started
+---------------
+
+It takes about 5 minutes to bootstrap your first BOSH.
+
+To bootstrap your first BOSH (known as a micro BOSH), on either AWS, OpenStack or vSphere:
+
+```
+mkdir workspace; cd workspace
+bosh bootstrap deploy
+```
+
+You will then select an IaaS, enter your credentials, and follow the minimalistic prompts.
+
+For AWS, if you have any VPCs you will be prompted to select one or to deploy into legacy EC2.
+
+Once the Q&A has completed the remainder of the installation will proceed to completion without further prompting.
+
+For AWS/Openstack, this process will create the following resources:
+
+-	1 keypair
+-	3 security groups (ssh, dns-server, bosh)
+-	1 `m1.medium` VM with an attached 16G disk (to run micro BOSH)
+-	1 elastic/floating IP (to access the VM) - if AWS EC2 or OpenStack Nova networking
+
+Locally, the following files are created within the current folder (hence we changed to a `workspace` folder in the example command above):
+
+```
+.
+├── deployments
+│   ├── bosh-deployments.yml
+│   ├── bosh-registry.log
+│   └── firstbosh
+│       ├── bosh_micro_deploy.log
+│       ├── light-bosh-stemcell-2798-aws-xen-ubuntu-trusty-go_agent.tgz
+│       └── micro_bosh.yml
+├── settings.yml
+└── ssh
+    └── firstbosh
+```
+
+Summary of files:
+
+-	`settings.yml` is the summary of all the prompts you answered, plus any values generated from the IaaS. You can stop `bosh bootstrap deploy` prompting for answers by pre-creating this file.
+-	`deployments/firstbosh/micro_bosh.yml` the configuration file for the `bosh micro deploy` command that is automatically run for you. You can subsequently make changes (enlarge the disk for example), and re-run `bosh micro deploy` from within the `deployments` folder.
+-	`ssh/firstbosh` is the private key for the keypair; and is to be used to SSH into the Micro BOSH if ever necessary for debugging
+
+### Next steps
+
+At the end of the `bosh bootstrap deploy` output is the following:
+
+```
+Deployed `firstbosh/micro_bosh.yml' to `https://54.243.234.204:25555', took 00:04:33 to complete
+```
+
+You can now target the BOSH with the BOSH CLI using this URL:
+
+```
+$ bosh target https://54.243.234.204:25555
+Target set to `firstbosh'
+Your username: admin
+Enter password: admin
+Logged in as `admin'
+```
+
+Answer `admin` to the username/password prompts. If you ever need to login again, run `bosh login`.
+
+Confirm that you are targeting the new BOSH:
+
+```
+$ bosh status
+Config
+  /home/vagrant/.bosh_config
+
+Director
+  Name       firstbosh
+  URL        https://54.243.234.204:25555
+  Version    1.2798.0 (00000000)
+  User       admin
+  UUID       2c591a3f-e489-4739-99da-ba147162ee4a
+  CPI        aws
+  dns        enabled (domain_name: microbosh)
+  compiled_package_cache disabled
+  snapshots  disabled
+
+Deployment
+  not set
+```
+
+Next you need to upload a "stemcell" (the base image for VMs). We have already downloaded one during bootstrapping, so run:
+
+```
+bosh upload stemcell deployments/firstbosh/*bosh-stemcell*
+```
+
+### Reusing IaaS configuration
+
+`bosh bootstrap deploy` can look up existing IaaS configuration via a `~/.fog` configuration file. It will be detected and these credentials will be easily reusable.
+
+You can specify multiple AWS accounts and OpenStack accounts/tenants:
+
+```yaml
+:my_aws:
+  :aws_access_key_id: XXXXXXXXX
+  :aws_secret_access_key: YYYYYYYYYYYY
+:my_openstack:
+  :openstack_auth_url: https://my.openstack.com:5000/v2.0/tokens
+  :openstack_username: XXXXXXXXX
+  :openstack_api_key: YYYYYYYYYYYY
+  :openstack_tenant: my-tenant
+```
+
+Running `bosh bootstrap deploy` would now look like:
+
+```
+$ bosh bootstrap deploy
+Auto-detected infrastructure API credentials at ~/.fog (override with $FOG)
+1. AWS (my_aws)
+2. OpenStack (my_openstack)
+3. Alternate credentials
+Choose an auto-detected infrastructure
+```
+
+Very convenient if you are booting BOSH multiple times, or tearing it down/rebuilding for dev/test work.
 
 Step-by-step installation
 -------------------------
