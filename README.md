@@ -3,6 +3,8 @@ Traveling BOSH CLI
 
 This project packages the BOSH CLI (with plugins) into self-contained packages that can be downloaded and used by anyone without requiring Ruby and native extensions.
 
+![clam](http://cl.ly/image/1q323l2V2Q3S/bosh-clam.png)
+
 In addition, if you act now, it also includes:
 
 -	`bosh bootstrap deploy` and `bosh micro` commands to create, update and delete Micro BOSH VMs
