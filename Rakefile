@@ -13,9 +13,13 @@ Install for local user with:
 curl -k -s https://raw.githubusercontent.com/cloudfoundry-community/bosh_cli_install/master/binscripts/installer | bash
 ```
 
-Visit http://bosh-cli.cfapps.io/ for one-line installation instructions.
+Visit http://bosh-cli.cfapps.io/ for one-line installation instructions. Alternately manually download, unpack, add path to `$PATH` and use `bosh`, `terraform`, `spiff`.
 
-Alternately manually download, unpack, and use `./bosh` script.
+Bootstrapping your first BOSH:
+
+```
+bosh bootstrap deploy
+```
 EOS
 
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
@@ -129,6 +133,8 @@ namespace :package do
     sh "rm -rf packaging/tmp"
     sh "mkdir -p packaging/tmp"
     sh "cp Gemfile* packaging/tmp/"
+
+    sh "rm -rf packaging/vendor/ruby/2.1.0/bundler" # if multiple clones of same repo, may load in wrong one
 
     Bundler.with_clean_env do
       sh "cd packaging/tmp && env BUNDLE_IGNORE_CONFIG=1 bundle install --path ../vendor --without development"
