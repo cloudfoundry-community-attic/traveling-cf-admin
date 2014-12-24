@@ -150,12 +150,14 @@ For each deployment, delete with:
 bosh delete deployment NAME
 ```
 
-Finally, you can delete the micro BOSH
+Finally, you can delete the micro BOSH VM and its attached disk.
 
 ```
 cd deployments
 bosh micro delete
 ```
+
+You will need to delete the elastic/floating IP, security group and keypair manually via your IaaS web console/API.
 
 ### Reusing IaaS configuration
 
