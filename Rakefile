@@ -19,17 +19,22 @@ Alternately manually download, unpack, and use `./bosh` script.
 EOS
 
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
-TRAVELING_RUBY_VERSION = "20141219-2.1.5"
+TRAVELING_RUBY_VERSION = "20141224-2.1.5"
 SPIFF_VERSION = "1.0.3"
 TERRAFORM_VERSION = "0.3.5"
 
-NOKOGIRI_VERSION = "1.6.5"  # Must match Gemfile
-SQLITE3_VERSION = "1.3.9"  # Must match Gemfile
-YAJL_VERSION = "1.2.1"  # Must match Gemfile
+# Must match Gemfile
+NOKOGIRI_VERSION = "1.6.5"
+SQLITE3_VERSION = "1.3.9"
+YAJL_VERSION = "1.2.1"
+THIN_VERSION = "1.6.3"
+EVENTMACHINE_VERSION = "1.0.4"
 NATIVE_GEMS = {
   "nokogiri" => NOKOGIRI_VERSION,
   "sqlite3" => SQLITE3_VERSION,
   "yajl-ruby" => YAJL_VERSION,
+  "thin" => THIN_VERSION,
+  "eventmachine" => EVENTMACHINE_VERSION,
 }
 
 desc "Package and upload"
@@ -80,6 +85,8 @@ namespace :package do
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-yajl-ruby-#{YAJL_VERSION}.tar.gz",
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-thin-#{THIN_VERSION}.tar.gz",
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-eventmachine-#{EVENTMACHINE_VERSION}.tar.gz",
       "packaging/terraform-#{TERRAFORM_VERSION}-linux-x86.zip",
       ] do
       create_package("linux-x86")
@@ -91,6 +98,8 @@ namespace :package do
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-yajl-ruby-#{YAJL_VERSION}.tar.gz",
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-thin-#{THIN_VERSION}.tar.gz",
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-eventmachine-#{EVENTMACHINE_VERSION}.tar.gz",
       "packaging/spiff-#{SPIFF_VERSION}-linux-x86_64.zip",
       "packaging/terraform-#{TERRAFORM_VERSION}-linux-x86_64.zip",
     ] do
@@ -104,6 +113,8 @@ namespace :package do
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-sqlite3-#{SQLITE3_VERSION}.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-yajl-ruby-#{YAJL_VERSION}.tar.gz",
+    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-thin-#{THIN_VERSION}.tar.gz",
+    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-eventmachine-#{EVENTMACHINE_VERSION}.tar.gz",
     "packaging/spiff-#{SPIFF_VERSION}-osx.zip",
     "packaging/terraform-#{TERRAFORM_VERSION}-osx.zip",
     ] do
