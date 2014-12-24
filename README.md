@@ -136,6 +136,27 @@ Next you need to upload a "stemcell" (the base image for VMs). We have already d
 bosh upload stemcell deployments/firstbosh/*bosh-stemcell*
 ```
 
+### Deleting your BOSH
+
+First you need to delete any BOSH deployments (running VMs). To delete each one you need its name:
+
+```
+bosh deployments
+```
+
+For each deployment, delete with:
+
+```
+bosh delete deployment NAME
+```
+
+Finally, you can delete the micro BOSH
+
+```
+cd deployments
+bosh micro delete
+```
+
 ### Reusing IaaS configuration
 
 `bosh bootstrap deploy` can look up existing IaaS configuration via a `~/.fog` configuration file. It will be detected and these credentials will be easily reusable.
