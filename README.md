@@ -38,7 +38,7 @@ Simple installation
 From any OS X or Linux terminal run the following command to download, unpack, and setup your `$PATH`:
 
 ```
-curl -k -s https://raw.githubusercontent.com/cloudfoundry-community/traveling-bosh/master/scripts/installer | bash
+curl -s https://raw.githubusercontent.com/cloudfoundry-community/traveling-bosh/master/scripts/installer | bash
 ```
 
 Alternately see [step-by-step instructions](#step-by-step-installation) below.
