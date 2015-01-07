@@ -27,17 +27,6 @@ GIT
       yajl-ruby (>= 0.8.2)
 
 GIT
-  remote: git://github.com/swisscom/bosh-workspace.git
-  revision: 635ab61b5399d422f245eef2bd152a83963c42aa
-  specs:
-    bosh-workspace (0.8.4)
-      bosh_cli (>= 1.2682.0)
-      bosh_common (>= 1.2682.0)
-      git (~> 1.2.6)
-      membrane (~> 1.1.0)
-      semi_semantic (~> 1.1.0)
-
-GIT
   remote: https://github.com/drnic/flattened_bosh_for_traveling_bosh.git
   revision: e26be414ba4fa96aa2a98c61321848be9ffa0cfb
   specs:
@@ -104,6 +93,12 @@ GEM
     bosh-stemcell (1.2807.0)
       bosh_aws_cpi (~> 1.2807.0)
     bosh-template (1.2807.0)
+      semi_semantic (~> 1.1.0)
+    bosh-workspace (0.8.5)
+      bosh_cli (>= 1.2682.0)
+      bosh_common (>= 1.2682.0)
+      git (~> 1.2.6)
+      membrane (~> 1.1.0)
       semi_semantic (~> 1.1.0)
     bosh_aws_cpi (1.2807.0)
       aws-sdk (= 1.44.0)
@@ -252,7 +247,7 @@ PLATFORMS
 DEPENDENCIES
   bosh-bootstrap
   bosh-registry!
-  bosh-workspace (>= 0.8.4)!
+  bosh-workspace (>= 0.8.5)
   bosh_cli_plugin_micro!
   bosh_vcloud_cpi!
   bosh_vsphere_cpi!

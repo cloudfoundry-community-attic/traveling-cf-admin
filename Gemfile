@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem "bosh-bootstrap" # includes bosh_cli & bosh_cli_plugin_micro
 gem "traveling_bosh_cli_plugin"
-gem "bosh-workspace", ">= 0.8.4", github: "swisscom/bosh-workspace"
+gem "bosh-workspace", ">= 0.8.5"
 
 # patched projects to support newer gems
 gem 'foodcritic', github: 'acrmp/foodcritic'
