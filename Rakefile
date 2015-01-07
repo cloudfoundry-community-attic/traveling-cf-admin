@@ -25,7 +25,7 @@ EOS
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
 TRAVELING_RUBY_VERSION = "20141224-2.1.5"
 SPIFF_VERSION = "1.0.3"
-TERRAFORM_VERSION = "0.3.5"
+TERRAFORM_VERSION = "0.3.6"
 
 # Must match Gemfile
 NOKOGIRI_VERSION = "1.6.5"
