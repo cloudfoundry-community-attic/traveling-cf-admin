@@ -51,7 +51,7 @@ rm cf-admin*.tar.gz
 Rewrite the internal shebangs of ruby-installed binaries:
 
 ```
-./traveling-cf-admin/helpers/rewrite-shebangs.sh
+./cf-admin*/helpers/rewrite-shebangs.sh
 ```
 
 To check that `cf` and `uaac` are runnable:

@@ -1,4 +1,7 @@
 *.tar.gz
+*.tgz
 *.zip
 packaging/vendor
+packaging/tmp
+.vagrant
 .DS_Store

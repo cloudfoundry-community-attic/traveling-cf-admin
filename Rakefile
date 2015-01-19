@@ -1,43 +1,24 @@
 # For Bundler.with_clean_env
 require 'bundler/setup'
 
-PACKAGE_NAME = "bosh_cli"
+PACKAGE_NAME = "cf-admin"
 
-RELEASE_NAME = "Self-contained BOSH CLI"
+RELEASE_NAME = "CLIs for Cloud Foundry administrators"
 RELEASE_DESCRIPTION = <<-EOS
-It is now easier than ever to install and use BOSH CLI.
+All the CLIs and plugins for Cloud Foundry administrators.
 
-Install for local user with:
-
-```
-curl -k -s https://raw.githubusercontent.com/cloudfoundry-community/bosh_cli_install/master/binscripts/installer | bash
-```
-
-Visit http://bosh-cli.cfapps.io/ for one-line installation instructions. Alternately manually download, unpack, add path to `$PATH` and use `bosh`, `terraform`, `spiff`.
-
-Bootstrapping your first BOSH:
-
-```
-bosh bootstrap deploy
-```
+* `cf` (useful administrator plugins coming soon)
+* `uaac`
 EOS
 
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
 TRAVELING_RUBY_VERSION = "20141224-2.1.5"
-SPIFF_VERSION = "1.0.3"
-TERRAFORM_VERSION = "0.3.6"
+
+CF_CLI_VERSION = "6.8.0"
 
 # Must match Gemfile
-NOKOGIRI_VERSION = "1.6.5"
-SQLITE3_VERSION = "1.3.9"
-YAJL_VERSION = "1.2.1"
-THIN_VERSION = "1.6.3"
 EVENTMACHINE_VERSION = "1.0.4"
 NATIVE_GEMS = {
-  "nokogiri" => NOKOGIRI_VERSION,
-  "sqlite3" => SQLITE3_VERSION,
-  "yajl-ruby" => YAJL_VERSION,
-  "thin" => THIN_VERSION,
   "eventmachine" => EVENTMACHINE_VERSION,
 }
 
@@ -53,7 +34,7 @@ task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx']
 namespace :release do
   desc "Create a release on github and upload"
   task :create do
-    tag = "v#{bosh_cli_version}"
+    tag = "v#{release_version}"
     sh "git commit -a -m 'Releasing #{tag}'"
     sh "git tag #{tag}"
     sh "git push origin master"
@@ -66,9 +47,9 @@ namespace :release do
 
   desc "Upload files to github release"
   task :upload_files do
-    tag = "v#{bosh_cli_version}"
+    tag = "v#{release_version}"
 
-    files = Dir["*#{bosh_cli_version}*.tar.gz"]
+    files = Dir["*#{release_version}*.tar.gz"]
     if files.size == 0
       $stderr.puts "Run `rake package` to create packages first"
       exit 1
@@ -86,12 +67,8 @@ namespace :package do
     desc "Package your app for Linux x86"
     task :x86 => [:bundle_install,
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-sqlite3-#{SQLITE3_VERSION}.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-yajl-ruby-#{YAJL_VERSION}.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-thin-#{THIN_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-eventmachine-#{EVENTMACHINE_VERSION}.tar.gz",
-      "packaging/terraform-#{TERRAFORM_VERSION}-linux-x86.zip",
+      "packaging/cf-#{CF_CLI_VERSION}-linux-x86.tgz",
       ] do
       create_package("linux-x86")
     end
@@ -99,13 +76,8 @@ namespace :package do
     desc "Package your app for Linux x86_64"
     task :x86_64 => [:bundle_install,
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-sqlite3-#{SQLITE3_VERSION}.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-yajl-ruby-#{YAJL_VERSION}.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-thin-#{THIN_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-eventmachine-#{EVENTMACHINE_VERSION}.tar.gz",
-      "packaging/spiff-#{SPIFF_VERSION}-linux-x86_64.zip",
-      "packaging/terraform-#{TERRAFORM_VERSION}-linux-x86_64.zip",
+      "packaging/cf-#{CF_CLI_VERSION}-linux-x86_64.tgz",
     ] do
       create_package("linux-x86_64")
     end
@@ -114,13 +86,8 @@ namespace :package do
   desc "Package your app for OS X"
   task :osx => [:bundle_install,
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx.tar.gz",
-    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
-    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-sqlite3-#{SQLITE3_VERSION}.tar.gz",
-    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-yajl-ruby-#{YAJL_VERSION}.tar.gz",
-    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-thin-#{THIN_VERSION}.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-eventmachine-#{EVENTMACHINE_VERSION}.tar.gz",
-    "packaging/spiff-#{SPIFF_VERSION}-osx.zip",
-    "packaging/terraform-#{TERRAFORM_VERSION}-osx.zip",
+    "packaging/cf-#{CF_CLI_VERSION}-osx.tgz",
     ] do
     create_package("osx")
   end
@@ -147,9 +114,6 @@ namespace :package do
     sh "find packaging/vendor/ruby/*/gems -name '*.bundle' | xargs rm"
   end
 
-  task :backport_nokogiri_version do
-  end
-
   desc "Clean up created releases"
   task :clean do
     sh "rm -f #{PACKAGE_NAME}*.tar.gz"
@@ -169,30 +133,23 @@ end
     end
   end
 
-  file "packaging/spiff-#{SPIFF_VERSION}-#{target}.zip" do
-    download_spiff(target)
-  end
-
-  file "packaging/terraform-#{TERRAFORM_VERSION}-#{target}.zip" do
-    download_terraform(target)
+  file "packaging/cf-#{CF_CLI_VERSION}-#{target}.tgz" do
+    download_cf_cli(target)
   end
 end
 
 def create_package(target)
-  package_dir = "#{PACKAGE_NAME}-#{bosh_cli_version}-#{target}"
+  package_dir = "#{PACKAGE_NAME}-#{release_version}-#{target}"
   sh "rm -rf #{package_dir}"
   sh "mkdir #{package_dir}"
   sh "mkdir -p #{package_dir}/lib/app"
   # sh "cp hello.rb #{package_dir}/lib/app/"
   sh "mkdir #{package_dir}/lib/ruby"
-  sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C #{package_dir}/lib/ruby"
-  sh "unzip packaging/spiff-#{SPIFF_VERSION}-#{target}.zip -d #{package_dir}; true"
-  sh "unzip packaging/terraform-#{TERRAFORM_VERSION}-#{target}.zip -d #{package_dir}; true"
+  sh "tar xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C #{package_dir}/lib/ruby"
+  sh "tar xzf packaging/cf-#{CF_CLI_VERSION}-#{target}.tgz -C #{package_dir}"
 
-  sh "cp packaging/wrappers/bosh.sh #{package_dir}/bosh"
-  sh "chmod +x packaging/wrappers/bosh.sh #{package_dir}/bosh"
-  sh "cp packaging/wrappers/bosh-registry.sh #{package_dir}/bosh-registry"
-  sh "chmod +x packaging/wrappers/bosh-registry.sh #{package_dir}/bosh-registry"
+  sh "cp packaging/wrappers/uaac.sh #{package_dir}/uaac"
+  sh "chmod +x packaging/wrappers/uaac.sh #{package_dir}/uaac"
 
   sh "cp -pR packaging/helpers #{package_dir}/"
 
@@ -222,35 +179,25 @@ def download_native_extension(target, gem_name_and_version)
     "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-gems-#{TRAVELING_RUBY_VERSION}-#{target}/#{gem_name_and_version}.tar.gz"
 end
 
-def download_spiff(target)
-  if target == "linux-x86"
-    puts "spiff not supported on 32-bit linux, skipping..."
-  else
-    url = if target =~ /linux/
-      "https://github.com/cloudfoundry-incubator/spiff/releases/download/v#{SPIFF_VERSION}/spiff_linux_amd64.zip"
-    else
-      "https://github.com/cloudfoundry-incubator/spiff/releases/download/v#{SPIFF_VERSION}/spiff_darwin_amd64.zip"
-    end
-    sh "curl -L --fail -o packaging/spiff-#{SPIFF_VERSION}-#{target}.zip #{url}"
-  end
-end
-
-def download_terraform(target)
-  terraform_target = case target
-  when "linux-x86_64"
-    "linux_amd64"
+def download_cf_cli(target)
+  url = case target
   when "linux-x86"
-    "linux_386"
+    "https://cli.run.pivotal.io/stable?release=linux32-binary&version=#{CF_CLI_VERSION}&source=traveling-cf-admin"
+  when "linux-x86_64"
+    "https://cli.run.pivotal.io/stable?release=linux64-binary&version=#{CF_CLI_VERSION}&source=traveling-cf-admin"
   when "osx"
-    "darwin_amd64"
+    "https://cli.run.pivotal.io/stable?release=macosx64-binary&version=#{CF_CLI_VERSION}&source=traveling-cf-admin"
   end
-  url = "https://bintray.com/artifact/download/mitchellh/terraform/terraform_#{TERRAFORM_VERSION}_#{terraform_target}.zip"
-  sh "curl -L --fail -o packaging/terraform-#{TERRAFORM_VERSION}-#{target}.zip #{url}"
+  sh "curl -L --fail -o packaging/cf-#{CF_CLI_VERSION}-#{target}.tgz #{url}"
 end
 
-def bosh_cli_version
-  @bosh_cli_version ||= begin
-    if `bundle list | grep bosh_cli` =~ /(\d+\.\d+\.\d+)/
+def release_version
+  CF_CLI_VERSION
+end
+
+def uaac_cli_version
+  @uaac_cli_version ||= begin
+    if `bundle list | grep uaac` =~ /(\d+\.\d+\.\d+)/
       $1
     end
   end
