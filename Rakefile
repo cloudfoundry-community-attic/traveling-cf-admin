@@ -2,6 +2,7 @@
 require 'bundler/setup'
 
 PACKAGE_NAME = "cf-admin"
+GITHUB_REPO = "traveling-cf-admin"
 
 RELEASE_NAME = "CLIs for Cloud Foundry administrators"
 RELEASE_DESCRIPTION = <<-EOS
@@ -35,12 +36,12 @@ namespace :release do
   desc "Create a release on github and upload"
   task :create do
     tag = "v#{release_version}"
-    sh "git commit -a -m 'Releasing #{tag}'"
+    sh "git commit -a -m 'Releasing #{tag}'; true"
     sh "git tag #{tag}"
     sh "git push origin master"
     sh "git push --tag"
     sh "github-release release \
-      --user cloudfoundry-community --repo traveling-bosh --tag #{tag} \
+      --user cloudfoundry-community --repo #{GITHUB_REPO} --tag #{tag} \
       --name '#{RELEASE_NAME} #{tag}' \
       --description '#{RELEASE_DESCRIPTION}'"
   end
@@ -56,7 +57,7 @@ namespace :release do
     end
     files.each do |file|
       sh "github-release upload \
-        --user cloudfoundry-community --repo traveling-bosh --tag #{tag} \
+        --user cloudfoundry-community --repo #{GITHUB_REPO} --tag #{tag} \
         --name #{file} --file #{file}"
     end
   end
