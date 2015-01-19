@@ -9,6 +9,8 @@ Support for including useful admin plugins requires:
 
 And some people to start writing admin plugins... hint hint.
 
+See below for the one-line installation instructions.
+
 Dependencies
 ------------
 
@@ -29,13 +31,22 @@ For OS X:
 brew install curl
 ```
 
-Simple installation
--------------------
+One user - simple installation
+------------------------------
 
-From any OS X or Linux terminal run the following command to download, unpack, and setup your `$PATH`:
+From any OS X or Linux terminal run the following command. It will download, unpack, and setup your `$PATH`:
 
 ```
 curl -s https://raw.githubusercontent.com/cloudfoundry-community/traveling-cf-admin/master/scripts/installer | bash
+```
+
+All users - simple installation
+-------------------------------
+
+From any OS X or Linux terminal run the following command. It will globally download, unpack, and setup your `$PATH`:
+
+```
+curl -s https://raw.githubusercontent.com/cloudfoundry-community/traveling-cf-admin/master/scripts/installer | sudo bash
 ```
 
 Alternately see [step-by-step instructions](#step-by-step-installation) below.
