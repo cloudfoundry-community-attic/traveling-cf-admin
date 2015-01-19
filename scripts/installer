@@ -11,16 +11,18 @@
 os_name=$(uname -s)
 os_hardware=$(uname -m)
 
+LATEST_VERSION="6.8.0"
+
 current_path=$(pwd)
 
 bin_dir=$1
 if [ "$bin_dir" == "" ]; then
   if [[ $EUID -ne 0 ]]; then
     bin_dir="$HOME/bin"
-    source_line="export PATH=\$PATH:\$HOME/bin/traveling-bosh"
+    source_line="export PATH=\$PATH:\$HOME/bin/traveling-cf-admin"
   else
     bin_dir="/usr/bin"
-    source_line="export PATH=\$PATH:${bin_dir}/traveling-bosh"
+    source_line="export PATH=\$PATH:${bin_dir}/traveling-cf-admin"
   fi
 fi
 
@@ -50,7 +52,8 @@ update_profile() {
   mac:   brew install curl
 "
 
-cli_version=$(curl -s https://bosh-cli.cfapps.io/latest_version)
+# cli_version=$(curl -s https://traveling-cf-admin.cfapps.io/latest_version)
+cli_version=${LATEST_VERSION}
 
 if [ "$os_name" == "Linux" ]; then
   update_profile $HOME/.zshrc || update_profile $HOME/.bashrc || update_profile $HOME/.bash_profile
@@ -67,8 +70,8 @@ if [[ $EUID -eq 0 ]]; then
   update_profile "/etc/bash.bashrc"
 fi
 
-tar_filename="bosh_cli-${cli_version}-${download_platform}"
-asset_filename="bosh-cli.tgz"
+tar_filename="cf-admin-${cli_version}-${download_platform}"
+asset_filename="cf-admin.tgz"
 
 if [ "$?" != "0" ]; then
   echo 'Unable to locate profile settings file'
@@ -82,16 +85,16 @@ fi
 current_dir=$(pwd)
 
 tmp_unarchive_dir=${TMPDIR:-/tmp}
-download_dir="$tmp_unarchive_dir/bosh-installer"
+download_dir="$tmp_unarchive_dir/cf-admin-installer"
 rm -rf ${download_dir}
 mkdir -p ${download_dir}
 download_file=${download_dir}/${asset_filename}
 
-download_url="https://github.com/cloudfoundry-community/traveling-bosh/releases/download/v${cli_version}/${tar_filename}.tar.gz"
+download_url="https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v${cli_version}/${tar_filename}.tar.gz"
 
-# https://github.com/cloudfoundry-community/traveling-bosh/releases/download/v1.2788.0/bosh_cli-1.2788.0-linux-x86.tar.gz
-# https://github.com/cloudfoundry-community/traveling-bosh/releases/download/v1.2788.0/bosh_cli-1.2788.0-linux-x86_64.tar.gz
-# https://github.com/cloudfoundry-community/traveling-bosh/releases/download/v1.2788.0/bosh_cli-1.2788.0-osx.tar.gz
+# https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.8.0/cf-admin-6.8.0-linux-x86.tar.gz
+# https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.8.0/cf-admin-6.8.0-linux-x86_64.tar.gz
+# https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.8.0/cf-admin-6.8.0-osx.tar.gz
 echo "Downloading v${cli_version}..."
 curl -k -L -H "Accept: application/octet-stream" $download_url -o ${download_file}
 
@@ -104,16 +107,16 @@ fi
 rm -rf $tar_filename
 tar xf ${download_file}
 rm -f $bin_dir/traveling-bosh
-ln -s $bin_dir/$tar_filename traveling-bosh
+ln -s $bin_dir/$tar_filename traveling-cf-admin
 
-./traveling-bosh/helpers/rewrite-shebangs.sh
+./traveling-cf-admin/helpers/rewrite-shebangs.sh
 
 cd $current_path
 
-echo "Installed: $($bin_dir/traveling-bosh/bosh --version)"
+echo "Installed: cf $($bin_dir/traveling-cf-admin/cf --version); uaac $($bin_dir/traveling-cf-admin/uaac -v)"
 echo
 echo "Please restart your terminal session or to get started right away run:"
 echo " source ${source_file}"
 echo
-echo "Run 'bosh' to see help"
+echo "Run 'cf' and 'uaac' to see help. Remember to login as an admin user."
 echo
