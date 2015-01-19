@@ -3,6 +3,12 @@ Traveling Cloud Foundry Admin CLIs
 
 This project packages the CLIs used by Cloud Foundry administrators - the `cf` CLI and useful admin plugins, and the `uaac` CLI (a Ruby gem). They can be downloaded and used by anyone without requiring Ruby and native extensions.
 
+Support for including useful admin plugins requires:
+
+-	[![#332](https://github-shields.cfapps.io/github/cloudfoundry/cli/issues/332.svg?style=flat)](https://github-shields.cfapps.io/github/cloudfoundry/cli/issues/332)
+
+And some people to start writing admin plugins... hint hint.
+
 Dependencies
 ------------
 
