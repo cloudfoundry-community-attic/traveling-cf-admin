@@ -49,7 +49,7 @@ For example:
 
 ```
 rm -rf tar xfz bosh_cli*.tar.gz
-wget https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/vX.Y.Z/bosh_cli-X.Y.Z-linux-x86_64.tar.gz
+wget https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.8.0/bosh_cli-6.8.0-linux-x86_64.tar.gz
 tar xfz cf-admin*.tar.gz
 rm cf-admin*.tar.gz
 ```
@@ -118,9 +118,9 @@ This will create three packages:
 
 ```
 $ ls cf-admin*
-cf-admin-X.Y.Z-linux-x86.tar.gz
-cf-admin-X.Y.Z-linux-x86_64.tar.gz
-cf-admin-X.Y.Z-osx.tar.gz
+cf-admin-6.8.0-linux-x86.tar.gz
+cf-admin-6.8.0-linux-x86_64.tar.gz
+cf-admin-6.8.0-osx.tar.gz
 ```
 
 It will then create a GitHub release and upload these assets to the release. For example, for [v1.1788.0](https://github.com/cloudfoundry-community/traveling-bosh/releases/tag/v1.2788.0).
