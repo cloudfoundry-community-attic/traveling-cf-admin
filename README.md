@@ -14,9 +14,7 @@ See below for the one-line installation instructions.
 Dependencies
 ------------
 
-The goal of traveling-bosh is to have very few dependencies. `curl` is the only dependency for the simple installation process; and for `bosh bootstrap deploy` command.
-
-Some use cases of BOSH itself might require/desire `git` CLI to be installed too.
+The goal of traveling-cf-admin is to have very few dependencies. `curl` is the only dependency for the simple installation process; and for `bosh bootstrap deploy` command.
 
 For Linux:
 
@@ -59,8 +57,8 @@ To download the latest release https://github.com/cloudfoundry-community/traveli
 For example:
 
 ```
-rm -rf tar xfz bosh_cli*.tar.gz
-wget https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.8.0/bosh_cli-6.8.0-linux-x86_64.tar.gz
+rm -rf tar xfz cf-admin*.tar.gz
+wget https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.8.0/cf-admin-6.8.0-linux-x86_64.tar.gz
 tar xfz cf-admin*.tar.gz
 rm cf-admin*.tar.gz
 ```
@@ -87,10 +85,11 @@ ln -s $PWD/$(ls -d cf-admin* | head -n1) cf-admin
 
 Check that its runnable via the symlink:
 
-To check that its runnable:
+To check that the CLIs are runnable:
 
 ```
-./cf-admin/bosh
+./cf-admin/cf
+./cf-admin/uaac
 ```
 
 Finally, add the `cf-admin` path into your `$PATH`:
@@ -107,13 +106,15 @@ This project uses http://phusion.github.io/traveling-ruby/
 Create & publish releases
 -------------------------
 
-Anyone in the @cloudfoundry-community can be responsible for create new releases whenever new BOSH CLI versions are released. This section contains the instructions.
+Anyone in the @cloudfoundry-community can be responsible for create new releases whenever new CF CLI or UAAC versions are released. This section contains the instructions.
 
 You are required to use Ruby 2.1 to create releases as this is what traveling-ruby uses.
 
 You will also need to install https://github.com/aktau/github-release to share the releases on Github.
 
-The release version number is directly taken from the BOSH CLI to be packaged. First, upgrade to latest BOSH CLI.
+The release version number is directly taken from the CF CLI to be packaged.
+
+To upgrade the uaac version (via `cf-uaac` rubygem):
 
 ```
 bundle update
@@ -135,3 +136,5 @@ cf-admin-6.8.0-osx.tar.gz
 ```
 
 It will then create a GitHub release and upload these assets to the release. For example, for [v1.1788.0](https://github.com/cloudfoundry-community/traveling-bosh/releases/tag/v1.2788.0).
+
+Finally, update `scripts/installer` with the new CF CLI version.
