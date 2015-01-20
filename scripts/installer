@@ -11,7 +11,7 @@
 os_name=$(uname -s)
 os_hardware=$(uname -m)
 
-LATEST_VERSION="6.8.0"
+LATEST_VERSION="6.9.0"
 
 current_path=$(pwd)
 
@@ -92,9 +92,9 @@ download_file=${download_dir}/${asset_filename}
 
 download_url="https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v${cli_version}/${tar_filename}.tar.gz"
 
-# https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.8.0/cf-admin-6.8.0-linux-x86.tar.gz
-# https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.8.0/cf-admin-6.8.0-linux-x86_64.tar.gz
-# https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.8.0/cf-admin-6.8.0-osx.tar.gz
+# https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.9.0/cf-admin-6.9.0-linux-x86.tar.gz
+# https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.9.0/cf-admin-6.9.0-linux-x86_64.tar.gz
+# https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.9.0/cf-admin-6.9.0-osx.tar.gz
 echo "Downloading v${cli_version}..."
 curl -k -L -H "Accept: application/octet-stream" $download_url -o ${download_file}
 

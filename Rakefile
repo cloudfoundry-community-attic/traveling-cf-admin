@@ -15,7 +15,7 @@ EOS
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
 TRAVELING_RUBY_VERSION = "20141224-2.1.5"
 
-CF_CLI_VERSION = "6.8.0"
+CF_CLI_VERSION = "6.9.0"
 
 # Must match Gemfile
 EVENTMACHINE_VERSION = "1.0.4"
@@ -37,9 +37,8 @@ namespace :release do
   task :create do
     tag = "v#{release_version}"
     sh "git commit -a -m 'Releasing #{tag}'; true"
-    sh "git tag #{tag}"
     sh "git push origin master"
-    sh "git push --tag"
+    # sh "git tag #{tag}"
     sh "github-release release \
       --user cloudfoundry-community --repo #{GITHUB_REPO} --tag #{tag} \
       --name '#{RELEASE_NAME} #{tag}' \
