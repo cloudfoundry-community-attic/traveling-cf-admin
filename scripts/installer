@@ -106,7 +106,7 @@ fi
 
 rm -rf $tar_filename
 tar xf ${download_file}
-rm -f $bin_dir/traveling-bosh
+rm -f $bin_dir/traveling-cf-admin
 ln -s $bin_dir/$tar_filename traveling-cf-admin
 
 ./traveling-cf-admin/helpers/rewrite-shebangs.sh

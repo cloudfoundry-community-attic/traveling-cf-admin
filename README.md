@@ -14,7 +14,7 @@ See below for the one-line installation instructions.
 Dependencies
 ------------
 
-The goal of traveling-cf-admin is to have very few dependencies. `curl` is the only dependency for the simple installation process; and for `bosh bootstrap deploy` command.
+The goal of traveling-cf-admin is to have very few dependencies. `curl` is the only dependency for the simple installation process.
 
 For Linux:
 
@@ -135,6 +135,6 @@ cf-admin-6.8.0-linux-x86_64.tar.gz
 cf-admin-6.8.0-osx.tar.gz
 ```
 
-It will then create a GitHub release and upload these assets to the release. For example, for [v1.1788.0](https://github.com/cloudfoundry-community/traveling-bosh/releases/tag/v1.2788.0).
+It will then create a GitHub release and upload these assets to the release.
 
 Finally, update `scripts/installer` with the new CF CLI version.
