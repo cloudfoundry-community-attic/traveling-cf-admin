@@ -38,11 +38,11 @@ namespace :release do
     tag = "v#{release_version}"
     sh "git commit -a -m 'Releasing #{tag}'; true"
     sh "git push origin master"
-    # sh "git tag #{tag}"
     sh "github-release release \
       --user cloudfoundry-community --repo #{GITHUB_REPO} --tag #{tag} \
       --name '#{RELEASE_NAME} #{tag}' \
       --description '#{RELEASE_DESCRIPTION}'"
+    sh "git pull origin master" # to get tag created
   end
 
   desc "Upload files to github release"
