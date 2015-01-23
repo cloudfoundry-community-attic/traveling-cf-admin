@@ -16,6 +16,7 @@ EOS
 TRAVELING_RUBY_VERSION = "20141224-2.1.5"
 
 CF_CLI_VERSION = "6.9.0"
+RELEASE_PATCH = "1" # if we're releasing a patch to the original CF_CLI_VERSION release; else ""
 NATS_CLI_VERSION = "1.0.0"
 
 # Must match Gemfile
@@ -207,7 +208,11 @@ def download_nats_cli(target)
 end
 
 def release_version
-  CF_CLI_VERSION
+  if RELEASE_PATCH == ""
+    CF_CLI_VERSION
+  else
+    CF_CLI_VERSION + "." + RELEASE_PATCH
+  end
 end
 
 def uaac_cli_version
