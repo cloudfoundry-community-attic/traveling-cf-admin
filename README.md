@@ -58,7 +58,7 @@ For example:
 
 ```
 rm -rf tar xfz cf-admin*.tar.gz
-wget https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.9.0/cf-admin-6.9.0-linux-x86_64.tar.gz
+wget https://github.com/cloudfoundry-community/traveling-cf-admin/releases/download/v6.9.0.1/cf-admin-6.9.0.1-linux-x86_64.tar.gz
 tar xfz cf-admin*.tar.gz
 rm cf-admin*.tar.gz
 ```
@@ -130,9 +130,9 @@ This will create three packages:
 
 ```
 $ ls cf-admin*
-cf-admin-6.9.0-linux-x86.tar.gz
-cf-admin-6.9.0-linux-x86_64.tar.gz
-cf-admin-6.9.0-osx.tar.gz
+cf-admin-6.9.0.1-linux-x86.tar.gz
+cf-admin-6.9.0.1-linux-x86_64.tar.gz
+cf-admin-6.9.0.1-osx.tar.gz
 ```
 
 It will then create a GitHub release and upload these assets to the release.
