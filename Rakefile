@@ -16,6 +16,7 @@ EOS
 TRAVELING_RUBY_VERSION = "20141224-2.1.5"
 
 CF_CLI_VERSION = "6.9.0"
+NATS_CLI_VERSION = "1.0.0"
 
 # Must match Gemfile
 EVENTMACHINE_VERSION = "1.0.4"
@@ -69,6 +70,7 @@ namespace :package do
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-eventmachine-#{EVENTMACHINE_VERSION}.tar.gz",
       "packaging/cf-#{CF_CLI_VERSION}-linux-x86.tgz",
+      "packaging/nats-#{NATS_CLI_VERSION}-linux-x86.tgz",
       ] do
       create_package("linux-x86")
     end
@@ -78,7 +80,8 @@ namespace :package do
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-eventmachine-#{EVENTMACHINE_VERSION}.tar.gz",
       "packaging/cf-#{CF_CLI_VERSION}-linux-x86_64.tgz",
-    ] do
+      "packaging/nats-#{NATS_CLI_VERSION}-linux-x86_64.tgz",
+      ] do
       create_package("linux-x86_64")
     end
   end
@@ -88,6 +91,7 @@ namespace :package do
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-eventmachine-#{EVENTMACHINE_VERSION}.tar.gz",
     "packaging/cf-#{CF_CLI_VERSION}-osx.tgz",
+    "packaging/nats-#{NATS_CLI_VERSION}-osx.tgz",
     ] do
     create_package("osx")
   end
@@ -136,6 +140,10 @@ end
   file "packaging/cf-#{CF_CLI_VERSION}-#{target}.tgz" do
     download_cf_cli(target)
   end
+
+  file "packaging/nats-#{NATS_CLI_VERSION}-#{target}.tgz" do
+    download_nats_cli(target)
+  end
 end
 
 def create_package(target)
@@ -147,6 +155,8 @@ def create_package(target)
   sh "mkdir #{package_dir}/lib/ruby"
   sh "tar xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C #{package_dir}/lib/ruby"
   sh "tar xzf packaging/cf-#{CF_CLI_VERSION}-#{target}.tgz -C #{package_dir}"
+  sh "tar xzf packaging/nats-#{NATS_CLI_VERSION}-#{target}.tgz -C #{package_dir}"
+  sh "mv #{package_dir}/nats* #{package_dir}/nats"
 
   sh "cp packaging/wrappers/uaac.sh #{package_dir}/uaac"
   sh "chmod +x packaging/wrappers/uaac.sh #{package_dir}/uaac"
@@ -189,6 +199,11 @@ def download_cf_cli(target)
     "https://cli.run.pivotal.io/stable?release=macosx64-binary&version=#{CF_CLI_VERSION}&source=traveling-cf-admin"
   end
   sh "curl -L --fail -o packaging/cf-#{CF_CLI_VERSION}-#{target}.tgz #{url}"
+end
+
+def download_nats_cli(target)
+  url = "https://github.com/soutenniza/nats/releases/download/#{NATS_CLI_VERSION}/nats-#{NATS_CLI_VERSION}-#{target}.tar.gz"
+  sh "curl -L --fail -o packaging/nats-#{NATS_CLI_VERSION}-#{target}.tgz #{url}"
 end
 
 def release_version
