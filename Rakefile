@@ -9,7 +9,8 @@ RELEASE_DESCRIPTION = <<-EOS
 All the CLIs and plugins for Cloud Foundry administrators.
 
 * `cf` (useful administrator plugins coming soon)
-* `uaac`
+* `uaac` to configure the UAA
+* `nats sub`, `nats pub` to observe NATS messaging
 EOS
 
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
