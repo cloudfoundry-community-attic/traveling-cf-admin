@@ -16,8 +16,9 @@ EOS
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
 TRAVELING_RUBY_VERSION = "20141224-2.1.5"
 
-CF_CLI_VERSION = "6.9.0.1"
-RELEASE_PATCH = "1" # if we're releasing a patch to the original CF_CLI_VERSION release; else ""
+CF_CLI_VERSION = "6.10.0"
+# RELEASE_PATCH = "1" # if we're releasing a patch to the original CF_CLI_VERSION release; else ""
+RELEASE_PATCH = "" # normal; not patching/re-releasing with an existing CF CLI
 NATS_CLI_VERSION = "1.0.0"
 
 # Must match Gemfile
@@ -125,6 +126,7 @@ namespace :package do
     sh "rm -f #{PACKAGE_NAME}*.tar.gz"
     sh "rm -rf packaging/vendor"
     sh "rm -rf packaging/*.tar.gz"
+    sh "rm -rf packaging/*.tgz"
   end
 end
 
