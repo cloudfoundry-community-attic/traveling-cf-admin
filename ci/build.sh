@@ -21,13 +21,11 @@ RELEASE_PATCH="" # normal; not patching/re-releasing with an existing CF CLI
 NATS_CLI_VERSION="1.0.0"
 EVENTMACHINE_VERSION="1.0.4"
 
-function release_version {
-  if [[ "${RELEASE_PATCH}X" == "X" ]]; then
-    echo $CF_CLI_VERSION
-  else
-    echo "${CF_CLI_VERSION}.${RELEASE_PATCH}"
-  fi
-}
+if [[ "${RELEASE_PATCH}X" == "X" ]]; then
+  release_version=$CF_CLI_VERSION
+else
+  release_version="${CF_CLI_VERSION}.${RELEASE_PATCH}"
+fi
 
 function bundle_traveling_ruby {
   mkdir -p packaging/tmp
