@@ -1,0 +1,11 @@
+---
+platform: linux
+
+image: docker:///ruby#2.1
+
+inputs:
+- name: traveling-cf-admin
+  path: .
+
+run:
+  path: ci/build.sh

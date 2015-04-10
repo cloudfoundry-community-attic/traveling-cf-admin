@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.3.6)
+    addressable (2.3.8)
     cf-uaa-lib (3.1.0)
       multi_json
     cf-uaac (3.1.0)
@@ -27,7 +27,7 @@ GEM
     json_pure (1.8.2)
     launchy (2.4.3)
       addressable (~> 2.3)
-    multi_json (1.10.1)
+    multi_json (1.11.0)
     rack (1.5.2)
     rake (10.4.2)
 
