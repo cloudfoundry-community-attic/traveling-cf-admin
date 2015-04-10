@@ -5,3 +5,5 @@ packaging/vendor
 packaging/tmp
 .vagrant
 .DS_Store
+stub.yml
+pipeline.yml
