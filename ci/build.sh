@@ -30,8 +30,9 @@ function bundle_traveling_ruby {
   rm -rf packaging/tmp
   rm -rf packaging/vendor/*/*/cache/*
   rm -rf packaging/vendor/ruby/*/extensions
-  find packaging/vendor/ruby/*/gems -name '*.so' | xargs rm; true
-  find packaging/vendor/ruby/*/gems -name '*.bundle' | xargs rm; true
+  for file in $(packaging/vendor/ruby/*/gems -name '*.{so,bundle}'); do
+    rm ${file}
+  done
 }
 
 function download_runtime {
