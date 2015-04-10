@@ -117,8 +117,8 @@ namespace :package do
     sh "rm -rf packaging/tmp"
     sh "rm -rf packaging/vendor/*/*/cache/*"
     sh "rm -rf packaging/vendor/ruby/*/extensions"
-    sh "find packaging/vendor/ruby/*/gems -name '*.so' | xargs rm"
-    sh "find packaging/vendor/ruby/*/gems -name '*.bundle' | xargs rm"
+    sh "find packaging/vendor/ruby/*/gems -name '*.so' | xargs rm; true"
+    sh "find packaging/vendor/ruby/*/gems -name '*.bundle' | xargs rm; true"
   end
 
   desc "Clean up created releases"
