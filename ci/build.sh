@@ -2,11 +2,10 @@
 
 set -e -x
 
-# export GEM_HOME=$HOME/.gems
-# export PATH=$GEM_HOME/bin:$PATH
-# gem install bundler --no-document
-# bundle install
-# bundle exec rake package
+export GEM_HOME=$HOME/.gems
+export PATH=$GEM_HOME/bin:$PATH
+gem install bundler --no-document
+bundle install
 
 PACKAGE_NAME="cf-admin"
 GITHUB_REPO="traveling-cf-admin"
