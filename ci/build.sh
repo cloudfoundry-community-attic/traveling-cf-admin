@@ -97,4 +97,5 @@ for target in "${targets[@]}"; do
   download_native_extension ${target} "eventmachine-${EVENTMACHINE_VERSION}"
   download_cf_cli ${target}
   download_nats_cli ${target}
+  create_package ${target}
 done
