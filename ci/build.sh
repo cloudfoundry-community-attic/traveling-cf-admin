@@ -105,7 +105,7 @@ function build_package {
 function build_release_assets {
   mkdir -p release
   cp ci/release_notes.md release/notes.md
-  cat "v${RELEASE_NAME}" > release/name
+  cat "v${RELEASE_NAME} v${release_version}" > release/name
   cat "v${release_version}" > release/tag
 }
 
