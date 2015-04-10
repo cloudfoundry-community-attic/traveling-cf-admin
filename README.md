@@ -153,6 +153,19 @@ meta:
     access_token: a1b2c3d4...
 ```
 
+To create & upload the pipeline to your target Concourse:
+
 ```
 ./ci/run.sh stub.yml
+```
+
+You can create releases against your own `<username>/<repo>` via the `stub.yml`:
+
+```yaml
+---
+meta:
+  github:
+    access_token: a1b2c3d4...
+    org: <username>
+    repository: <repo>
 ```
