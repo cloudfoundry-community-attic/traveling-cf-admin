@@ -117,13 +117,14 @@ namespace :package do
     sh "rm -rf packaging/tmp"
     sh "rm -rf packaging/vendor/*/*/cache/*"
     sh "rm -rf packaging/vendor/ruby/*/extensions"
-    sh "find packaging/vendor/ruby/*/gems -name '*.so' | xargs rm"
-    sh "find packaging/vendor/ruby/*/gems -name '*.bundle' | xargs rm"
+    sh "find packaging/vendor/ruby/*/gems -name '*.so' | xargs rm; true"
+    sh "find packaging/vendor/ruby/*/gems -name '*.bundle' | xargs rm; true"
   end
 
   desc "Clean up created releases"
   task :clean do
     sh "rm -f #{PACKAGE_NAME}*.tar.gz"
+    sh "rm -rf #{PACKAGE_NAME}*"
     sh "rm -rf packaging/vendor"
     sh "rm -rf packaging/*.tar.gz"
     sh "rm -rf packaging/*.tgz"
@@ -202,12 +203,12 @@ def download_cf_cli(target)
   when "osx"
     "https://cli.run.pivotal.io/stable?release=macosx64-binary&version=#{CF_CLI_VERSION}&source=traveling-cf-admin"
   end
-  sh "curl -L --fail -o packaging/cf-#{CF_CLI_VERSION}-#{target}.tgz #{url}"
+  sh "curl -L -o packaging/cf-#{CF_CLI_VERSION}-#{target}.tgz #{url}"
 end
 
 def download_nats_cli(target)
   url = "https://github.com/soutenniza/nats/releases/download/#{NATS_CLI_VERSION}/nats-#{NATS_CLI_VERSION}-#{target}.tar.gz"
-  sh "curl -L --fail -o packaging/nats-#{NATS_CLI_VERSION}-#{target}.tgz #{url}"
+  sh "curl -L -o packaging/nats-#{NATS_CLI_VERSION}-#{target}.tgz #{url}"
 end
 
 def release_version

@@ -138,3 +138,34 @@ cf-admin-6.9.0.1-osx.tar.gz
 It will then create a GitHub release and upload these assets to the release.
 
 Finally, update `scripts/installer` with the new CF CLI version.
+
+Release via Concourse
+---------------------
+
+The build and release process can now also be hosted on a http://concourse.ci system.
+
+Create a `stub.yml` with your Github access token:
+
+```yaml
+---
+meta:
+  github:
+    access_token: a1b2c3d4...
+```
+
+To create & upload the pipeline to your target Concourse:
+
+```
+./ci/run.sh stub.yml
+```
+
+You can create releases against your own `<username>/<repo>` via the `stub.yml`:
+
+```yaml
+---
+meta:
+  github:
+    access_token: a1b2c3d4...
+    org: <username>
+    repository: <repo>
+```
