@@ -4,7 +4,7 @@ set -e -x
 
 export GEM_HOME=$HOME/.gems
 export PATH=$GEM_HOME/bin:$PATH
-gem install bundler --no-document
+gem install bundler --no-document -v "1.7.6"
 bundle install
 
 PACKAGE_NAME="cf-admin"
@@ -25,7 +25,7 @@ function bundle_traveling_ruby {
   mkdir -p packaging/tmp
   cp Gemfile* packaging/tmp/
   pushd packaging/tmp
-    env BUNDLE_IGNORE_CONFIG=1 bundle install --path ../vendor --without development
+    env BUNDLE_IGNORE_CONFIG=1 BUNDLE_APP_CONFIG=. bundle install --path ../vendor --without development
   popd
   rm -rf packaging/tmp
   rm -rf packaging/vendor/*/*/cache/*
