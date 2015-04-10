@@ -46,10 +46,8 @@ function download_runtime {
 function download_native_extension {
   target=$1
   gem_name_and_version=$2
-  pushd packaging
   curl -L --fail -o packaging/traveling-ruby-${TRAVELING_RUBY_VERSION}-${target}-${gem_name_and_version}.tar.gz \
     http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-gems-${TRAVELING_RUBY_VERSION}-${target}/${gem_name_and_version}.tar.gz
-  popd
 }
 
 function download_cf_cli {
