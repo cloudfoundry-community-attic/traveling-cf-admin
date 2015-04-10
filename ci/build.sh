@@ -95,6 +95,20 @@ function create_package {
   tar -xzf packaging/traveling-ruby-${TRAVELING_RUBY_VERSION}-${target}-eventmachine-1.0.4.tar.gz -C ${package_dir}/lib/vendor/ruby
 }
 
+function build_package {
+  target=$1
+  package_dir="${PACKAGE_NAME}-${release_version}-${target}"
+  mkdir -p release
+  tar -czf release/${package_dir}.tar.gz ${package_dir}
+}
+
+function build_release_assets {
+  mkdir -p release
+  cp ci/release_notes.md release/notes.md
+  cat "v${RELEASE_NAME}" > release/name
+  cat "v${release_version}" > release/tag
+}
+
 bundle_traveling_ruby
 targets=( linux-x86 linux-x86_64 osx )
 for target in "${targets[@]}"; do
@@ -104,4 +118,7 @@ for target in "${targets[@]}"; do
   download_cf_cli ${target}
   download_nats_cli ${target}
   create_package ${target}
+
+  build_package ${target}
 done
+build_release_assets
