@@ -27,7 +27,7 @@ resources:
   type: git
   source:
     uri: https://github.com/cloudfoundry-community/traveling-cf-admin.git
-    branch: ci
+    branch: master
 
 - name: github-release
   type: github-release
