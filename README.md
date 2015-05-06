@@ -147,7 +147,7 @@ The build and release process is being automated by a http://concourse.ci system
 To setup a pipeline for your own fork (heck why not - perhaps include some additional binaries for your users)
 
 ```yaml
-git-repository: https://github.com/<your-org>/traveling-cf-admin.git
+git-repository: git@github.com:<your-org>/traveling-cf-admin.git
 git-branch: master
 github-org: <your-org>
 github-repository: traveling-cf-admin

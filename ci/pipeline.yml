@@ -8,6 +8,7 @@ jobs:
       resource: git-traveling-cf-admin
     - get: cf-cli-release
       resource: cf-cli-github-release
+
   - task: build-traveling-cf-admin
     file: traveling-cf-admin/ci/build.yml
   - put: traveling-cf-admin-github-release
@@ -21,7 +22,7 @@ jobs:
     file: traveling-cf-admin/ci/git_bump_installer_version.yml
   - put: git-traveling-cf-admin
     params:
-      repository: build-traveling-cf-admin
+      repository: git-bump-installer-version
       rebase: true
 
 resources:
