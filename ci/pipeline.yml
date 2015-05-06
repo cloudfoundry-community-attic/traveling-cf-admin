@@ -30,7 +30,8 @@ resources:
   source:
     user: cloudfoundry
     repository: cli
-    globs: xxx
+    globs: ignore-them
+    access_token: {{github-access-token}}
 
 - name: git-traveling-cf-admin
   type: git
