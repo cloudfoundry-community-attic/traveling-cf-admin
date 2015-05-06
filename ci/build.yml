@@ -1,7 +1,7 @@
 ---
 platform: linux
 
-image: docker:///drnic/logstash-docker-pipeline
+image: docker:///ruby#2.1
 
 inputs:
 - name: traveling-cf-admin
