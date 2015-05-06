@@ -19,12 +19,12 @@ resources:
 - name: git-traveling-cf-admin
   type: git
   source:
-    uri: https://github.com/cloudfoundry-community/traveling-cf-admin.git
-    branch: master
+    uri: {{git-repository}}
+    branch: {{git-branch}}
 
 - name: github-release
   type: github-release
   source:
-    user: {{github_org}}
-    repository: {{github_repository}}
-    access_token: {{github_access_token}}
+    user: {{github-org}}
+    repository: {{github-repository}}
+    access_token: {{github-access-token}}

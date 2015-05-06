@@ -8,6 +8,7 @@ usage() {
 }
 
 if [[ "${CF_CLI_VERSION}X" == "X" ]]; then
+  usage
 fi
 
 
