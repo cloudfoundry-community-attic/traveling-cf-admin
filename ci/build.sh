@@ -2,18 +2,15 @@
 
 set -e -x
 
-usage() {
-  echo "USAGE: cf_cli_version_path=path/to/version_file ./ci/build.sh"
-  exit 1
-}
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd $DIR/..
 
-if [[ "${cf_cli_version_path}X" == "X" ]]; then
-  usage
+if [[ ! -f cf-cli-release/version ]]; then
+  echo "Missing required file cf-cli-release/version"
+  exit 1
 fi
-if [[ ! -f ${cf_cli_version_path} ]]; then
-  usage
-fi
-CF_CLI_VERSION=$(cat $cf_cli_version_path)
+
+CF_CLI_VERSION=$(cat cf-cli-release/version)
 
 export GEM_HOME=$HOME/.gems
 export PATH=$GEM_HOME/bin:$PATH

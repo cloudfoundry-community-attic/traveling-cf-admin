@@ -17,18 +17,27 @@ jobs:
       body: build-traveling-cf-admin/release/notes.md
       globs: [build-traveling-cf-admin/release/*.tar.gz]
 
+  - task: git-bump-installer-version
+    file: traveling-cf-admin/ci/git_bump_installer_version.yml
+  - put: git-traveling-cf-admin
+    params:
+      repository: build-traveling-cf-admin
+      rebase: true
+
 resources:
 - name: cf-cli-github-release
   type: github-release
   source:
     user: cloudfoundry
     repository: cli
+    globs: xxx
 
 - name: git-traveling-cf-admin
   type: git
   source:
     uri: {{git-repository}}
     branch: {{git-branch}}
+    private_key: {{github-private-key}}
 
 - name: traveling-cf-admin-github-release
   type: github-release

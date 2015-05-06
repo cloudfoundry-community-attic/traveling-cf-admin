@@ -1,0 +1,12 @@
+---
+platform: linux
+
+image: docker:///ruby#2.1
+
+inputs:
+- name: traveling-cf-admin
+  path: .
+- name: cf-cli-release
+
+run:
+  path: ci/git_bump_installer_version.sh
