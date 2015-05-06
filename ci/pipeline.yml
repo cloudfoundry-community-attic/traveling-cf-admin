@@ -1,0 +1,49 @@
+jobs:
+- name: job-traveling-cf-admin
+  public: true
+  serial: true
+  plan:
+  - aggregate:
+    - get: traveling-cf-admin
+      resource: git-traveling-cf-admin
+    - get: cf-cli-release
+      resource: cf-cli-github-release
+
+  - task: build-traveling-cf-admin
+    file: traveling-cf-admin/ci/build.yml
+  - put: traveling-cf-admin-github-release
+    params:
+      name: build-traveling-cf-admin/release/name
+      tag: build-traveling-cf-admin/release/tag
+      body: build-traveling-cf-admin/release/notes.md
+      globs: [build-traveling-cf-admin/release/*.tar.gz]
+
+  - task: git-bump-installer-version
+    file: traveling-cf-admin/ci/git_bump_installer_version.yml
+  - put: git-traveling-cf-admin
+    params:
+      repository: git-bump-installer-version
+      rebase: true
+
+resources:
+- name: cf-cli-github-release
+  type: github-release
+  source:
+    user: cloudfoundry
+    repository: cli
+    globs: ignore-them
+    access_token: {{github-access-token}}
+
+- name: git-traveling-cf-admin
+  type: git
+  source:
+    uri: {{git-repository}}
+    branch: {{git-branch}}
+    private_key: {{github-private-key}}
+
+- name: traveling-cf-admin-github-release
+  type: github-release
+  source:
+    user: {{github-org}}
+    repository: {{github-repository}}
+    access_token: {{github-access-token}}

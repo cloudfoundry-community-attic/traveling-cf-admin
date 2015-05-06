@@ -2,6 +2,16 @@
 
 set -e -x
 
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd $DIR/..
+
+if [[ ! -f cf-cli-release/version ]]; then
+  echo "Missing required file cf-cli-release/version"
+  exit 1
+fi
+
+CF_CLI_VERSION=$(cat cf-cli-release/version)
+
 export GEM_HOME=$HOME/.gems
 export PATH=$GEM_HOME/bin:$PATH
 gem install bundler --no-document -v "1.7.6"
@@ -15,7 +25,6 @@ RELEASE_NAME="CLIs for Cloud Foundry administrators"
 # http://traveling-ruby.s3-us-west-2.amazonaws.com/list.html
 TRAVELING_RUBY_VERSION="20141224-2.1.5"
 
-CF_CLI_VERSION="6.11.0"
 # RELEASE_PATCH="1" # if we're releasing a patch to the original CF_CLI_VERSION release; else ""
 RELEASE_PATCH="" # normal; not patching/re-releasing with an existing CF CLI
 NATS_CLI_VERSION="1.0.0"

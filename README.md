@@ -142,30 +142,27 @@ Finally, update `scripts/installer` with the new CF CLI version.
 Release via Concourse
 ---------------------
 
-The build and release process can now also be hosted on a http://concourse.ci system.
+The build and release process is being automated by a http://concourse.ci system run by [Stark & Wayne](https://starkandwayne.com)
 
-Create a `stub.yml` with your Github access token:
+To setup a pipeline for your own fork (heck why not - perhaps include some additional binaries for your users)
 
 ```yaml
----
-meta:
-  github:
-    access_token: a1b2c3d4...
+git-repository: git@github.com:<your-org>/traveling-cf-admin.git
+git-branch: master
+github-org: <your-org>
+github-repository: traveling-cf-admin
+github-private-key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  MIIEpAIBAAKCAQEAum1nnKm7vBDf83l0aDSpZ94nKz9FzEVb5nFTlNEa0w+D0/hb
+  WJ/dxCz20Quzsqq7jiNbVsx19CjoNNZJwcXgE00hIe5tIcxyEdj1ShfzeXD2smOP
+  ...
+  DDRsY7ljzku3Ry9M7Iqn7aV7HaD+SY71RhBwAvzPmNhaLm31KbEM5Q==
+  -----END RSA PRIVATE KEY-----
+github-access-token: <your-token>
 ```
 
 To create & upload the pipeline to your target Concourse:
 
 ```
-./ci/run.sh stub.yml
-```
-
-You can create releases against your own `<username>/<repo>` via the `stub.yml`:
-
-```yaml
----
-meta:
-  github:
-    access_token: a1b2c3d4...
-    org: <username>
-    repository: <repo>
+fly -t <target> configure traveling-cf-admin -c ci/pipeline.yml --vars-from credentials.yml
 ```

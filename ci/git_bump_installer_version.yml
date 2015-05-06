@@ -1,0 +1,12 @@
+---
+platform: linux
+
+image: docker:///drnic/logstash-docker-pipeline
+
+inputs:
+- name: traveling-cf-admin
+  path: .
+- name: cf-cli-release
+
+run:
+  path: ci/git_bump_installer_version.sh
