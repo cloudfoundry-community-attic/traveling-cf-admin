@@ -6,9 +6,11 @@ jobs:
   - aggregate:
     - get: traveling-cf-admin
       resource: git-traveling-cf-admin
+    - get: cf-cli-release
+      resource: cf-cli-github-release
   - task: build-traveling-cf-admin
     file: traveling-cf-admin/ci/build.yml
-  - put: github-release
+  - put: traveling-cf-admin-github-release
     params:
       name: build-traveling-cf-admin/release/name
       tag: build-traveling-cf-admin/release/tag
@@ -16,13 +18,19 @@ jobs:
       globs: [build-traveling-cf-admin/release/*.tar.gz]
 
 resources:
+- name: cf-cli-github-release
+  type: github-release
+  source:
+    user: cloudfoundry
+    repository: cli
+
 - name: git-traveling-cf-admin
   type: git
   source:
     uri: {{git-repository}}
     branch: {{git-branch}}
 
-- name: github-release
+- name: traveling-cf-admin-github-release
   type: github-release
   source:
     user: {{github-org}}

@@ -6,3 +6,4 @@ packaging/tmp
 .vagrant
 .DS_Store
 credentials.yml
+cf-cli-release

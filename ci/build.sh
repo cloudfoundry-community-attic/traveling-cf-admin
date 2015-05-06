@@ -3,14 +3,17 @@
 set -e -x
 
 usage() {
-  echo "USAGE: CF_CLI_VERSION=X.Y.Z ./ci/build.sh"
+  echo "USAGE: cf_cli_version_path=path/to/version_file ./ci/build.sh"
   exit 1
 }
 
-if [[ "${CF_CLI_VERSION}X" == "X" ]]; then
+if [[ "${cf_cli_version_path}X" == "X" ]]; then
   usage
 fi
-
+if [[ ! -f ${cf_cli_version_path} ]]; then
+  usage
+fi
+CF_CLI_VERSION=$(cat $cf_cli_version_path)
 
 export GEM_HOME=$HOME/.gems
 export PATH=$GEM_HOME/bin:$PATH
