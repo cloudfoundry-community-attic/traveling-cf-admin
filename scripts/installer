@@ -50,7 +50,7 @@ update_profile() {
   mac:   brew install curl
 "
 
-cli_version=$(curl -s https://github.com/cloudfoundry-community/traveling-cf-admin/blob/pipeline/cf-cli-release/version)
+cli_version=$(curl -s https://raw.githubusercontent.com/cloudfoundry-community/traveling-cf-admin/master/cf-cli-release/version)
 
 if [ "$os_name" == "Linux" ]; then
   update_profile $HOME/.zshrc || update_profile $HOME/.bashrc || update_profile $HOME/.bash_profile
