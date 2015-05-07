@@ -6,8 +6,10 @@ jobs:
   - aggregate:
     - get: traveling-cf-admin
       resource: git-traveling-cf-admin
+      trigger: true
     - get: cf-cli-release
       resource: cf-cli-github-release
+      trigger: true
 
   - task: build-traveling-cf-admin
     file: traveling-cf-admin/ci/build.yml
