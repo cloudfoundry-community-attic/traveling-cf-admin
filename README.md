@@ -164,5 +164,5 @@ github-access-token: <your-token>
 To create & upload the pipeline to your target Concourse:
 
 ```
-fly -t <target> configure traveling-cf-admin -c ci/pipeline.yml --vars-from credentials.yml
+fly -t snw configure traveling-cf-admin -c ci/pipeline.yml --vars-from credentials.yml
 ```
