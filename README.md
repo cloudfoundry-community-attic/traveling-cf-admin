@@ -144,6 +144,8 @@ Release via Concourse
 
 The build and release process is being automated by a http://concourse.ci system run by [Stark & Wayne](https://starkandwayne.com)
 
+The pipeline status is viewable at http://ci.starkandwayne.com:8080/pipelines/traveling-cf-admin
+
 To setup a pipeline for your own fork (heck why not - perhaps include some additional binaries for your users)
 
 ```yaml
