@@ -2,10 +2,10 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.3.8)
-    cf-uaa-lib (3.1.0)
+    cf-uaa-lib (3.2.4)
       multi_json
-    cf-uaac (3.1.0)
-      cf-uaa-lib (~> 3.1.0)
+    cf-uaac (3.1.4)
+      cf-uaa-lib (~> 3.2.4)
       em-http-request (~> 1.1.2)
       eventmachine (~> 1.0.3)
       highline (~> 1.6.21)
@@ -19,16 +19,16 @@ GEM
       em-socksify (>= 0.3)
       eventmachine (>= 1.0.3)
       http_parser.rb (>= 0.6.0)
-    em-socksify (0.3.0)
+    em-socksify (0.3.1)
       eventmachine (>= 1.0.0.beta.4)
     eventmachine (1.0.4)
     highline (1.6.21)
     http_parser.rb (0.6.0)
-    json_pure (1.8.2)
+    json_pure (1.8.3)
     launchy (2.4.3)
       addressable (~> 2.3)
-    multi_json (1.11.0)
-    rack (1.5.2)
+    multi_json (1.11.2)
+    rack (1.5.5)
     rake (10.4.2)
 
 PLATFORMS
@@ -38,3 +38,6 @@ DEPENDENCIES
   cf-uaac
   eventmachine (= 1.0.4)
   rake
+
+BUNDLED WITH
+   1.10.6
