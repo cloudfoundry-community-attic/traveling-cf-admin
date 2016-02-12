@@ -8,7 +8,7 @@ inputs:
 - name: cf-cli-release
 
 outputs:
-- name: version-bumped-repo
+- name: traveling-cf-admin
 
 run:
   path: traveling-cf-admin/ci/bump-installer-version.sh
