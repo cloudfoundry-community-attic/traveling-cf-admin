@@ -14,12 +14,12 @@ jobs:
   - task: build-release
     file: traveling-cf-admin/ci/build-release.yml
 
-  - put: upload-github-release
+  - put: cf-cli-github-release
     params:
       name: release/name
       tag: release/tag
       body: release/notes.md
-      globs: release/*.tar.gz]
+      globs: [release/*.tar.gz]
 
   - task: git-bump-installer-version
     file: traveling-cf-admin/ci/git_bump_installer_version.yml
@@ -42,7 +42,7 @@ resources:
   source:
     uri: {{git-repository}}
     branch: {{git-branch}}
-    private_key: {{github-private-key}}
+    private_key: {{github-key}}
 
 - name: traveling-cf-admin-github-release
   type: github-release

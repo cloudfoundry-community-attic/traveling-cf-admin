@@ -14,4 +14,4 @@ params:
   cf_cli_version_path: cf-cli-release/version
 
 run:
-  path: ci/build-release.sh
+  path: traveling-cf-admin/ci/build-release.sh
