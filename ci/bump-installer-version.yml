@@ -5,8 +5,10 @@ image: docker:///drnic/logstash-docker-pipeline
 
 inputs:
 - name: traveling-cf-admin
-  path: .
 - name: cf-cli-release
 
+outputs:
+- rename: version-bumped-repo
+
 run:
-  path: ci/git_bump_installer_version.sh
+  path: traveling-cf-admin/ci/bump-installer-version.sh

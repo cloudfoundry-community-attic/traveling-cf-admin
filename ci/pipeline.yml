@@ -21,11 +21,12 @@ jobs:
       body: release/notes.md
       globs: [release/*.tar.gz]
 
-  - task: git-bump-installer-version
-    file: traveling-cf-admin/ci/git_bump_installer_version.yml
+  - task: bump-installer-version
+    file: traveling-cf-admin/ci/bump-installer-version.yml
+
   - put: git-traveling-cf-admin
     params:
-      repository: git-bump-installer-version
+      repository: version-bumped-repo
       rebase: true
 
 resources:
