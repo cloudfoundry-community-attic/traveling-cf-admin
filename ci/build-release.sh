@@ -2,15 +2,16 @@
 
 set -e -x
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-cd $DIR/..
+release_dir=$(pwd)/release
+mkdir -p $release_dir
 
 if [[ ! -f cf-cli-release/version ]]; then
   echo "Missing required file cf-cli-release/version"
   exit 1
 fi
-
 CF_CLI_VERSION=$(cat cf-cli-release/version)
+
+cd traveling-cf-admin
 
 export GEM_HOME=$HOME/.gems
 export PATH=$GEM_HOME/bin:$PATH
@@ -106,16 +107,16 @@ function create_package {
 
 function build_package {
   target=$1
+  mkdir -p ${release_dir}
   package_dir="${PACKAGE_NAME}-${release_version}-${target}"
-  mkdir -p release
-  tar -czf release/${package_dir}.tar.gz ${package_dir}
+  tar -czf ${release_dir}/${package_dir}.tar.gz ${package_dir}
 }
 
 function build_release_assets {
-  mkdir -p release
-  cp ci/release_notes.md release/notes.md
-  echo "${RELEASE_NAME} v${release_version}" > release/name
-  echo "v${release_version}" > release/tag
+  mkdir -p ${release_dir}
+  cp ci/release_notes.md ${release_dir}/notes.md
+  echo "${RELEASE_NAME} v${release_version}" > ${release_dir}/name
+  echo "v${release_version}" > ${release_dir}/tag
 }
 
 bundle_traveling_ruby

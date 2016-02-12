@@ -11,14 +11,15 @@ jobs:
       resource: cf-cli-github-release
       trigger: true
 
-  - task: build-traveling-cf-admin
-    file: traveling-cf-admin/ci/build.yml
-  - put: traveling-cf-admin-github-release
+  - task: build-release
+    file: traveling-cf-admin/ci/build-release.yml
+
+  - put: upload-github-release
     params:
-      name: build-traveling-cf-admin/release/name
-      tag: build-traveling-cf-admin/release/tag
-      body: build-traveling-cf-admin/release/notes.md
-      globs: [build-traveling-cf-admin/release/*.tar.gz]
+      name: release/name
+      tag: release/tag
+      body: release/notes.md
+      globs: release/*.tar.gz]
 
   - task: git-bump-installer-version
     file: traveling-cf-admin/ci/git_bump_installer_version.yml

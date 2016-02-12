@@ -5,11 +5,13 @@ image: docker:///ruby#2.1
 
 inputs:
 - name: traveling-cf-admin
-  path: .
 - name: cf-cli-release
+
+outputs:
+- name: release
 
 params:
   cf_cli_version_path: cf-cli-release/version
 
 run:
-  path: ci/build.sh
+  path: ci/build-release.sh
