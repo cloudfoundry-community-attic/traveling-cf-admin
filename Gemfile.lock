@@ -4,7 +4,7 @@ GEM
     addressable (2.4.0)
     cf-uaa-lib (3.2.5)
       multi_json
-    cf-uaac (3.1.6)
+    cf-uaac (3.1.7)
       cf-uaa-lib (~> 3.2.5)
       em-http-request (~> 1.1.2)
       eventmachine (~> 1.0.3)
